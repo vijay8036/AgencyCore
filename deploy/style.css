@@ -1,0 +1,537 @@
+/* ============================================================
+   THE PIVOT POINT — merged styles (Screen 1 hero + Screen 2 zoom)
+   ------------------------------------------------------------
+   FLUID SIZING MODEL — artboard 1920px === 100vw; every fluid value
+   is clamp(min, fluid, max) so the page scales yet stays legible.
+   ============================================================ */
+
+/* ---- Lufga — self-hosted woff2 (deploy/fonts). Replaces the cdnfonts CDN,
+   which was 500-ing and never loaded on Safari. Only the weights the site uses. ---- */
+@font-face{ font-family:'Lufga'; font-style:normal; font-weight:400; font-display:swap;
+  src:url('fonts/LufgaRegular.woff2') format('woff2'); }
+@font-face{ font-family:'Lufga'; font-style:normal; font-weight:500; font-display:swap;
+  src:url('fonts/LufgaMedium.woff2') format('woff2'); }
+@font-face{ font-family:'Lufga'; font-style:normal; font-weight:600; font-display:swap;
+  src:url('fonts/LufgaSemiBold.woff2') format('woff2'); }
+@font-face{ font-family:'Lufga'; font-style:normal; font-weight:700; font-display:swap;
+  src:url('fonts/LufgaBold.woff2') format('woff2'); }
+@font-face{ font-family:'Lufga'; font-style:normal; font-weight:800; font-display:swap;
+  src:url('fonts/LufgaExtraBold.woff2') format('woff2'); }
+
+:root{
+  /* palette (sampled from screen1.svg / Figma) */
+  --cream:   #FFFCEA;
+  --cream-2: #FFF3C9;
+  --ink:     #131313;
+  --ink-2:   #1f1f1f;
+  --coral:   #DE4B34;
+  --coral-d: #c63f2a;
+  --green:   #1A8264;
+  --green-d: #146951;
+  --muted:   #8c867a;
+  /* screen-2 eyebrow gradient stops */
+  --grad-1:  #D95039;
+  --grad-2:  #812F21;
+
+  /* type families — Lufga is self-hosted (see @font-face above) */
+  --font-display:'Lufga', system-ui, sans-serif;
+  --font-body:'Lufga', system-ui, -apple-system, sans-serif;
+  --font:'Lufga', system-ui, -apple-system, sans-serif;
+  --footer-h:12vh;
+  --track-w:240vw;  /* screen3 */
+
+  /* fluid type scale (design px -> clamped vw) */
+  --fs-mega:    16.6vw;  /* "Pivot Point"          */
+  --fs-tag:     3.125vw;   /* hero dark-bar tagline  */
+  --fs-eyebrow: 3vw;   /* hero small red "The"   */
+  --fs-eyebrow-z:3.33vw;  /* zoom "The"             */
+  --fs-q:       5vw;     /* question (1× scale)    */
+  --fs-body:    0.94vw;  /* body copy              */
+  --fs-small:   0.73vw;  /* micro labels           */
+  --fs-logo:    1.04vw;  /* wordmark               */
+
+  --pad-x:   8.33vw;     /* hero side padding 160px */
+  --pad-x-z: 8.229vw;     /* zoom eyebrow inset      */
+  --gap-sm:  0.8vw;
+  --gap-md:  1.6vw;
+
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+body{ font-family:var(--font-body); background:var(--cream); color:var(--ink); overflow-x:hidden; }
+img,svg{ display:block; }
+/* display family for big headline elements */
+.hero__eyebrow,.hero__title{ font-family:var(--font-display); }
+
+/* scroll progress bar */
+
+/* brand mark — absolutely placed inside the hero (scrolls away with it) */
+.brandbar{
+  position:absolute; top:2.6vh; left:var(--pad-x);
+  display:flex; align-items:center; gap:.55em;
+  z-index:200; font-size:var(--fs-logo); font-weight:700; letter-spacing:.2px;
+  mix-blend-mode:difference; color:#fff;
+}
+.brandbar__link{ display:inline-flex; align-items:center; color:inherit; text-decoration:none; }
+.brandbar__logo{ height:2.7vw; width:auto; display:block; }
+.brandbar__logo path{ fill:currentColor; }
+.brandbar b{ font-weight:800; }
+.brandbar .light{ font-weight:500; }
+
+@media (max-width:1920px){
+  .brandbar__logo{height: 50px;}
+}
+
+/* ============================================================
+   SCENE SCAFFOLD — each pinned + scrubbed section.
+   ============================================================ */
+.scene{
+  position:relative; min-height:100vh; width:100%;
+  overflow:hidden; display:flex; isolation:isolate;
+}
+.scene--cream{ background:var(--cream); color:var(--ink); }
+
+/* ---------- SCREEN 1 : HERO ---------- */
+.hero{ flex-direction:column; justify-content:center; }
+.hero__head{ 
+  position: absolute;
+  z-index: 3;
+  margin-bottom: 0;
+  top: -17.4vw;
+}
+.hero__eyebrow{ color:var(--coral); font-weight:500; font-size:var(--fs-eyebrow); line-height:.9; margin-bottom:1em; will-change:transform,opacity; }
+.hero__title{ color:var(--coral); font-weight:600; font-size:var(--fs-mega); line-height:.78; letter-spacing:-.02em; white-space:nowrap; margin-left: -1.198vw;}
+.hero__title .w{ display:inline-block; will-change:transform; }
+/* ONLY the "P" of "Point" pivots — about its own center — the signature gag */
+.hero__title .pivot-letter{ display:inline-block; transform-origin:50% 50%; will-change:transform; }
+.hero__bar{
+  position:absolute; left:0; right:0; bottom:0; height:38.9vh;
+  background:var(--ink); display:flex; align-items:center; padding:0 var(--pad-x);
+  gap:var(--gap-md); z-index:2; will-change:transform;
+}
+.hero__tag{ color:var(--cream); font-weight:500; font-size:var(--fs-tag); line-height:1.05; max-width:18ch; flex:0 0 auto; }
+.hero__copy{ color:rgba(255, 252, 234, 0.5); font-size:var(--fs-body); line-height:1.5; max-width:40ch; margin-left:10vw; }
+.hero__copy p+p{ margin-top:1.2em; }
+.hero__cue{ margin-left:auto; display:flex; align-items:center; flex:0 0 auto; position:relative;     margin-right: -8.333vw;}
+/* badge cue: circle + down-chevron + lines, mirrored so the circle sits at the
+   right edge and the lines run left into the copy (matches the old line+button) */
+.hero__cue-svg{ width:16.771vw; height:auto; display:block; }
+
+/* ---------- the pinned zoom scene ---------- */
+.zoom{
+  position:relative; min-height:100vh; width:100%;
+  background:var(--ink); overflow:hidden; isolation:isolate;
+}
+
+/* persistent red "The" eyebrow — vertical coral→maroon gradient text */
+.zoom__eyebrow{
+  position:absolute; top:5vh; left:var(--pad-x);
+  z-index:5; font-weight:600; font-size:var(--fs-eyebrow); line-height:1;
+  background:linear-gradient(180deg, var(--grad-1) 10%, var(--grad-2) 93%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+/* stage stacks every question SVG in one grid cell so they overlap */
+.zoom__stage{ position:absolute; inset:0; z-index:2; display:grid; place-items:center; }
+.zoom__q{ grid-area:1 / 1; width:100%; height:100vh; display:block; overflow:visible; }
+.zoom__q text{
+  font-family:var(--font); font-weight:600;   /* Lufga SemiBold (Figma) */
+  font-size:96px; letter-spacing:-.01em;       /* user units; tspan dy = line-height */
+  fill:var(--cream); 
+  /* filter:drop-shadow(0 0 16px rgba(255,255,255,.22)); */
+}
+/* the scaled group — VECTOR transform, stays crisp + no reflow */
+.zoom__qg{ opacity:0; will-change:transform, opacity; }
+
+/* film-grain noise overlay (Figma NOISE effect) */
+.zoom__noise{
+  position:absolute; inset:0; z-index:3; width:100%; height:100%;
+  opacity:.05; pointer-events:none; mix-blend-mode:overlay;
+}
+
+/* ============================================================
+   SCREEN 2 · INTRO PANEL  (ported from old.html, restyled to screen2)
+   "Agencies everywhere are looking for answers…" → "day by day,
+   drowning in complexity." with floating ? marks + plant/character graphic.
+   GSAP-driven (pinned + scrubbed). Fonts switched Bricolage → Lufga.
+   ============================================================ */
+.intro{
+  position:relative; min-height:100vh; width:100%; top: -50vh; z-index: -1;
+  background:var(--cream); color:var(--ink); overflow:hidden; isolation:isolate;
+}
+.intro .qmark{ position:absolute; z-index:2; pointer-events:none; will-change:transform,opacity; }
+.intro .qmark svg{ width:100%; height:auto; display:block; }  /* mark scales with its vw width */
+
+#title-group{
+  position:absolute; left:0; width:100%; text-align:center; z-index:3;
+  top:57%; transform:translateY(-50%); will-change:transform,opacity;
+}
+#title-main{
+  font-family:var(--font); font-weight:600;          /* Lufga SemiBold */
+  font-size:2.5vw; color:var(--ink);
+  line-height:1.15; letter-spacing:-.02em; margin:0 0; padding:0 4vw;
+  opacity:0; will-change:transform,opacity;
+}
+#title-sub{
+  font-family:var(--font); font-weight:600;
+  font-size:2.5vw; color:var(--ink);
+  line-height:1.2; margin:0; padding:0 4vw; opacity:0; will-change:transform,opacity;
+}
+
+#graphic-group{
+  position:absolute; bottom:0; left:0; width:100%;
+  height:52vh; z-index:1; opacity:0; will-change:transform,opacity;
+}
+#graphic-bg{ position:absolute; bottom:0; left:0; width:100%; height:18vh; background:#E8E3D4; z-index:0; }
+#graphic-plant-l{ position:absolute; bottom:18vh; left:calc(50% - 28.646vw); height:10.208vh; z-index:2; }
+#graphic-plant-r{ position:absolute; bottom:18vh; right:calc(50% - 28.646vw); height:10.208vh; z-index:2; }
+#graphic-plant-l svg,#graphic-plant-r svg{ height:100%; width:auto; display:block; }
+#graphic-frame-wrap{ position:absolute; bottom:10vh; left:50%; transform:translateX(-50%); width:auto; max-width:92vw; overflow:hidden; z-index:3; }
+/* sized by viewport HEIGHT so the figure stays proportional to the vh ground
+   bar on short screens; width:auto keeps the viewBox aspect (no letterboxing) */
+#parson-img{ display:block; height:33.426vh; width:auto; aspect-ratio:1510 / 910.5; max-width:92vw; }
+
+/* ============================================================
+   SCREEN 2 · NOTEBOOK  (canvas, ported from old.html)
+   .notebook is a tall scroll "sentinel"; the fixed canvas paints the
+   ruled page → typed copy → paper-tear, scrubbed by ScrollTrigger.
+   ============================================================ */
+/* the notebook canvas now overlays the screen-3 stage and tears as its opening
+   phase (z above the world/fore but below the .reveal mask finale) */
+#notebook-canvas{
+  position:absolute; inset:0; z-index:15; pointer-events:none;
+}
+
+/* shared scroll hint (mix-blend keeps it visible over cream + dark scenes) */
+.scrollhint{
+  position:fixed; bottom:2.5vh; left:50%; transform:translateX(-50%);
+  font-size:var(--fs-small); letter-spacing:.2em; text-transform:uppercase;
+  color:#fff; opacity:.5; z-index:200; mix-blend-mode:difference;
+}
+
+/* reduced motion: show final readable states, no fly-through / parallax */
+
+@media (max-width:720px){
+  .hero__title{ white-space:normal; }
+  .hero__bar{ flex-direction:column; align-items:flex-start; justify-content:center; gap:var(--gap-sm); padding-top:2.778vh; }
+  .hero__copy{ margin-left:0; }
+  .hero__cue{ display:none; }
+}
+@media (prefers-reduced-motion:reduce){
+  .bounce{ animation:none; }
+  .zoom__qg{ opacity:0; }
+  .zoom__q:first-child .zoom__qg{ opacity:1; }
+  #title-main,#title-sub,#graphic-group,.intro .qmark{ opacity:1 !important; transform:none !important; }
+}
+
+
+/* ============================================================
+   SCREEN 3 · CUT THROUGH THE NOISE — merged from screen3.css
+   (reset/body/.progress/.scrollhint omitted; pivot-point has its own)
+   ============================================================ */
+/* the pinned stage; the tracks inside pan horizontally at different rates */
+.stage{ position:relative; height:100vh; width:100%; background:var(--coral); overflow:hidden; isolation:isolate; }
+/* Desktop: pull the pinned "cut"/notebook scene up so it follows the intro's
+   exit promptly. The intro's top:-50vh + its 100vh pinned height otherwise leave
+   ~1.5 viewports of blank cream between the intro hiding and the notebook.
+   Scoped to ≥1025 — on mobile the cut is a normal stacked section. */
+@media (min-width:1025px){ .stage{ margin-top:-120vh; } }
+.track{ position:absolute; top:0; left:0; height:100vh; width:var(--track-w); will-change:transform; }
+.world{ position:absolute; top:0; left:0; height:100vh; width:var(--track-w); z-index:2; will-change:transform; }
+.track--fore{ z-index:9; pointer-events: none;}
+
+/* continuous dark ground bar running the whole world.
+   z is high WITHIN .world so it cleanly cuts the bottom of the grown dome flat */
+.ground{ position:absolute; left:0; bottom:0; width:var(--track-w); height:var(--footer-h); background:var(--ink); z-index:8; }
+
+/* ---------- S1 : signup (world centre ≈ 50vw) ---------- */
+.s1{ position:absolute; left:0; top:0; width:100vw; height:100vh; z-index:2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:3.4vh; text-align:center; padding-bottom:var(--footer-h); }
+.s1__title{ font-weight:600; color:var(--cream); font-size:4.479vw; line-height:1.06; letter-spacing:-.02em; }
+.s1__form{ display:grid; grid-template-columns:1fr 1fr; gap:0.833vw; width:22.917vw; }
+.fld{ background:var(--cream); border:none; border-radius:8px; font-family:inherit; font-size:var(--fs-small); color:var(--ink); padding:.85em 1em; outline:none; }
+.fld::placeholder{ color:#8c867a; }
+.fld--full{ grid-column:1 / -1; }
+.s1__send{ grid-column:1 / -1; background:var(--ink); color:#fff; border:none; cursor:pointer; font-family:inherit; font-weight:700; letter-spacing:.18em; font-size:var(--fs-small); padding:.95em; border-radius:8px; }
+
+/* potted plants flanking the form, standing on the ground line (FORE track) */
+.plant{ position:absolute; bottom:var(--footer-h); height:7.812vw; }
+.plant svg{ height:100%; width:auto; display:block; }
+.plant--l{ left:6vw; opacity:0.5}
+.plant--r{ left:86vw; }
+
+/* ---------- S2 : no jargon — ONE container at world 130vw. The pan settles at
+   cam.p = -130, so this container's left edge lands exactly at screen 0 and it
+   fills the viewport; every child below is positioned relative to it. ---------- */
+.s2{ position:absolute; left:130vw; top:0; width:100vw; height:100vh; z-index:2; overflow: hidden;}
+
+.s2head{ position:absolute; left:8vw; top:13vh; width:33.333vw; z-index:3; }
+.s2head__h2{ font-weight:600; color:var(--cream); font-size:3.542vw; line-height:1.04; letter-spacing:-.02em; margin-bottom:.45em; }
+.s2head__sub{ font-weight:500; color:#ffe7df; font-size:1.042vw; line-height:1.55; }
+
+/* belief card — right side of the S2 container */
+.card{ position:absolute; right:8vw; top:13vh; width:21.875vw; z-index:5;
+  background:var(--cream); color:var(--ink); border-radius:18px; padding:1.458vw; }
+.card strong{ display:block; color:var(--coral); font-weight:700; font-size:1.458vw; margin-bottom:.4em; }
+.card span{ font-weight:500; font-size:0.885vw; line-height:1.45; }
+
+/* ---------- S2 push animation : person frames + square, scrubbed by scroll
+   The rig lives INSIDE the .s2 container (left 6vw of it). The pan settles so
+   .s2 fills the viewport, then the SAME timeline slides the rig to the centre
+   of the container while the frames scrub. Children sit relative to the rig;
+   the ground bar (z-index:8) cuts the person's dropped feet flat. */
+.s2rig{ position:absolute; left:-40vw; bottom:0; width:0; height:100%; z-index:6; will-change:transform; }
+/* hand reaches 37.5% across the 72vh-wide person frame ≈ 26vh from its left,
+   so the square sits flush against the pushing hands (tied to the person's
+   vh scale so they stay joined at any viewport) */
+.s2square{ position:absolute; left:10.729vw; bottom:var(--footer-h);
+  width:13.021vw; aspect-ratio:1/1; background:var(--cream); overflow:hidden; }
+/* faint seam dot — gives the solid ball a mark so its spin is visible as it
+   rolls after the kick (orbits the centre when #seqSquare rotates). Hidden until
+   the kick CONNECTS (JS fades it in) so it isn't visible on the pushed square. */
+.s2dot{ position:absolute; left:50%; top:15%; width:2%; aspect-ratio:1/1;
+  border-radius:50%; background:#cfcfcf; transform:translateX(-50%);
+  opacity:0; visibility:hidden; }
+.s2person{ position:absolute; left:0; bottom:calc(var(--footer-h) - 7vh);
+  height:auto; width:28.49vw; display:block; }
+
+@media (max-width:1920px){
+    .s2person{width: 547px;}
+    .s2square {
+          left: 205px;    
+      width: 250px;
+    }
+}
+/* golf flag standing on the ground beside the ball (slides in from the right
+   after the kick). z below the ball-rig so the ball sits in front of the pole. */
+.s2flag{ position:absolute; left:69vw; bottom:var(--footer-h); height:52vh; z-index:5; will-change:transform;     margin-bottom: -1.852vh;}
+.s2flag svg{ height:100%; width:auto; display:block; }
+
+/* ---------- REVEAL : circular mask growing from the ball to cover the screen,
+   unveiling the "Welcome to The Pivot Point" finale. The clip-path circle
+   (origin = ball centre, radius = scroll) is set in screen3.js; starts at 0. */
+.reveal{ position:absolute; inset:0; z-index:20; background:var(--cream);
+  clip-path:circle(0px at 50% 75%); will-change:clip-path; }
+.reveal__ground{ position:absolute; left:0; bottom:0; width:100%; height:var(--footer-h); background:var(--ink); }
+.reveal__city{ position:absolute; left:0; bottom:var(--footer-h); width:100%; height:44vh;
+  display:flex; align-items:flex-end; justify-content:center; }
+.reveal__city svg{ width:72.917vw; height:100%; display:block; }
+.reveal__tree{ position:absolute; bottom:var(--footer-h); height:13vh; }
+.reveal__tree svg{ height:100%; width:auto; display:block; }
+.reveal__tree--l{ left:9vw; }
+.reveal__tree--r{ right:9vw; }
+.reveal__copy{ position:absolute; left:0; top:0; width:100%; height:100vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; gap:1.8vh; padding-bottom:34vh; }
+.reveal__h2{ font-weight:600; color:var(--coral); font-size:4.271vw; line-height:1.04; letter-spacing:-.02em; }
+.reveal__sub{ font-weight:500; color:var(--ink); font-size:1.094vw; line-height:1.5; }
+
+/* ---------- PORTAL : while the circular mask grows at the end of screen-3,
+   .rm_root is lifted into a fixed full-viewport layer (top:0) and clipped to
+   the growing circle (clip-path set inline by screen3.js) so the next section
+   shows at full view behind the mask. top:0 == where rm_hscroll pins after the
+   cut pin releases, so the handoff to the horizontal pan is jump-free. Class is
+   removed the instant the pin releases, returning rm_root to normal flow. */
+.rm_root--portal{ position:fixed; top:0; left:0; width:100%; z-index:9999;
+  will-change:clip-path; }
+
+/* ============================================================
+   MOBILE / TABLET (≤1024px) — the vw/vh type scale is calibrated
+   for the 1920 desktop frame, so on small screens the body copy
+   renders ~3px. Below 1024px we drop that and set fixed, readable
+   type + content widths. The scroll scaffolding (100vw panels, vh
+   stages, the horizontal track, cam-driven offsets) is intentionally
+   left in vw/vh — it is load-bearing for the GSAP pan. Placed last so
+   it wins by source order. Desktop (≥1025px) is completely untouched.
+   ============================================================ */
+@media (max-width:1024px){
+  :root{
+    --fs-mega:    3.25rem;    /* hero "Pivot Point" (wraps on small phones) */
+    --fs-tag:     1.375rem;   /* hero dark-bar tagline */
+    --fs-eyebrow: 1.25rem;    /* red "The" */
+    --fs-eyebrow-z:1.5rem;    /* zoom "The" */
+    --fs-q:       1.75rem;    /* question */
+    --fs-body:    1rem;       /* body copy — was ~0.94vw ≈ 3px on phones */
+    --fs-small:   0.8125rem;  /* micro labels */
+    --fs-logo:    1.0625rem;  /* wordmark */
+    --pad-x:      1.25rem;    /* side padding */
+    --pad-x-z:    1.25rem;
+    --gap-sm:     0.5rem;
+    --gap-md:     0.875rem;
+  }
+
+  /* hero copy — full width, no desktop indent */
+  .hero__cue-svg {
+    width: 20vw;
+ 
+}
+  .hero__head {
+    top: -17.4vw;
+}
+  .hero__title {
+    font-size: 19vw;
+  }
+  .hero__eyebrow {
+    font-size: 3vw;
+    margin-bottom: 0.5em;
+}
+  .hero__bar {
+    will-change: transform;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 6vh;
+    padding-bottom: 6vh;
+}
+  .hero__tag {
+    font-size: 40px;
+    line-height: 1.05;
+    max-width: 100vw;    
+}
+  .hero__copy{ margin-left:0;         max-width: 72vw;
+    font-size: 20px;
+    margin-top: 30px; }
+
+  /* intro statement */
+  #title-main, #title-sub{ font-size:2.5rem; }
+
+  /* screen-3 · S1 signup */
+  .s1__title{ font-size:1.875rem; }
+  .s1__form{ width:min(360px, 86%); }
+
+  /* screen-3 · S2 "no jargon" + belief card */
+  .s2head{ width:84%; }
+  .s2head__h2{ font-size:1.625rem; }
+  .s2head__sub{ font-size:1rem; }
+  .card{ width:min(320px, 80%); padding:1.25rem; }
+  .card strong{ font-size:1.125rem; }
+  .card span{ font-size:0.95rem; }
+
+  /* screen-3 · reveal finale */
+  .reveal__h2{ font-size:1.875rem; }
+  .reveal__sub{ font-size:1rem; }
+
+  /* ---- STOP the pinned horizontal "cut" pan; stack S1 + S2 as normal,
+          full-height vertical sections. Animation-only props (notebook
+          tear, push/kick frame rig, ball, flag, mask/portal) are hidden —
+          they are driven by the desktop-only timeline. ---- */
+  #notebook-canvas{ display:none; }
+  /* Mobile counterpart to the desktop margin-top:-120vh (≥1025): pull the coral
+     stage up to meet the intro's ground bar instead of leaving ~2/3 viewport of
+     blank cream below the held intro (its top:-50vh + box height). */
+  .stage{ height:auto; overflow:visible; margin-top:-50vh; }
+  .world{ position:static; width:100%; height:auto; display:flex;
+          transform:none !important;        align-items: end; }
+  .track--fore{ display:none; }                /* flanking-plants overlay (desktop deco) */
+  .ground{ display:none; }
+  .s1, .s2{ position:relative; left:auto; right:auto; top:auto; width:100%;
+    min-height: auto;
+    transform: none !important;
+    height: auto;
+    padding: 80px 20px;
+   }
+  .s2{ display:flex; flex-direction:column; align-items:center;
+       justify-content:center; gap:2rem;}
+  .s2head{ position:relative; left:auto; top:auto; width:100%; max-width:34rem;
+           text-align:center; }
+  .card{ position:relative; right:auto; top:auto; width:100%; max-width:26rem; }
+  .s2rig, .s2flag{ display:none; }             /* push/kick frame animation */
+  .reveal{ display:none; }                     /* circular mask / portal handoff */
+
+  .hero__cue {
+    position: absolute;
+    margin-right: 0;
+    
+    right: 0;
+    top: 43%;
+}
+}
+
+/* ---- ≤991px · tablet ---- */
+@media (max-width:991px){
+  :root{
+    --fs-mega:3rem; --fs-tag:1.3rem; --fs-eyebrow:1.2rem; --fs-eyebrow-z:1.4rem;
+    --fs-q:1.6rem; --fs-body:1rem; --fs-small:0.8rem; --fs-logo:1rem;
+  }
+
+  #title-main, #title-sub{ font-size:2rem; }
+  .s1__title{ font-size:2rem; }
+  .s2head__h2{ font-size:2rem; }
+  .s2head__sub{ font-size:1rem; }
+  .card strong{ font-size:1.2rem; }
+  .card span{ font-size:1rem; }
+  .reveal__h2{ font-size:2rem; }
+  .reveal__sub{ font-size:1rem; }
+  .world {
+    flex-direction: column;
+}
+.s2 {
+  padding-top: 0;
+}
+}
+
+/* ---- ≤767px · large phone / small tablet ---- */
+@media (max-width:767px){
+
+  /* #title-main, #title-sub{ font-size:1.25rem; } */
+  .hero__tag {
+    font-size: 2rem;}
+    .hero__copy {
+      font-size: 1rem;
+      
+  }
+  .hero__cue-svg {
+    width: 22.771vw;}
+
+    #title-main, #title-sub {
+      font-size: 1.8rem;
+}
+  .s1__title{ font-size:2rem; }
+  .s1__form{ width:100%; }
+  .s2head__h2{ font-size:1.5rem; }
+  .s2head__sub{ font-size:1rem; }
+  .card{ max-width:none; width:100%; }
+  /* .card strong{ font-size:1.05rem; } */
+  /* .card span{ font-size:0.9rem; } */
+  .reveal__h2{ font-size:1.5rem; }
+  .reveal__sub{ font-size:0.95rem; }
+  .s1__form {
+    
+    grid-template-columns: 1fr;
+    gap: 15px;
+    width: 100%;
+}
+.hero__copy {
+  margin-left: 0;
+  max-width: 100%;
+}
+}
+
+/* ---- ≤576px · phone ---- */
+@media (max-width:576px){
+  .hero__head {
+    top: -146px;
+}
+.hero__tag {
+  font-size: 1.5rem;
+}
+  .hero__eyebrow {
+    font-size: 20px;
+    margin-bottom: 0.5em;
+}
+  .hero__title {
+    font-size: 5rem;
+    display: flex;
+    flex-direction: column;
+}
+#title-main, #title-sub {
+  font-size: 1.5rem;
+}
+.s1__title {
+  font-size: 1.5rem;
+}
+}
+
+

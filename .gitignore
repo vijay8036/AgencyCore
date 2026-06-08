@@ -1,0 +1,12 @@
+# Commit ONLY the deploy/ folder (the live site).
+# Ignore everything at the repo root...
+/*
+
+# ...except these:
+!/.gitignore
+!/deploy/
+
+# Never commit Mac / editor junk, even inside deploy/
+.DS_Store
+*.swp
+.vscode/

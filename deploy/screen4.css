@@ -1,0 +1,952 @@
+/* ===== MERGED from screen4.css — globals scoped under .rm_root (rm_-prefixed) ===== */
+/* ===== SECTION 1: WINDOW (style3.css) ===== */
+
+/* cream interior backing — scales WITH the door (camZ) so the window opening
+   is always full cream (no red wall shows inside the door) */
+.rm_interior {
+  position: absolute; left: 50%; top: 50%;
+  width: 33vw; height: 45vw;
+  transform: translate(-50%,-50%); transform-origin: 50% 47.4%;
+  background: var(--rm_cream); z-index: 2; will-change: transform;
+}
+.rm_content { z-index: 3 !important; background: transparent !important; }
+.rm_sheet { background: transparent !important; }
+g.pathstroke > path {
+  stroke: #4b4b4b;
+}
+/* =================================================================
+   The Pivot Point — Window Reveal (door = 35-frame sequence).
+   The door starts CLOSED (d_01) and opens as you scroll while the
+   camera flies in and the interior fills the screen.
+   ================================================================= */
+:root {
+  --rm_red:   #de4b34;
+  --rm_cream: #fffcea;
+  --rm_ink:   #131313;
+  --rm_fw: 100vw;                      /* the 1920x1080 frame fills the width */
+  --rm_fh: calc(var(--rm_fw) * 0.5625);
+}
+
+.rm_track { height: 360vh; position: relative; }
+.rm_stage {
+  position: sticky; top: 0;
+  height: 100vh; width: 100%;
+  overflow: visible;
+  background: var(--rm_red);
+}
+
+/* The window reveal is the LAST panel of the horizontal track: it sizes like a
+   panel (100vw x 100vh) and its stage fills it. The door/zoom reveal is driven
+   by the horizontal pan's progress as this panel slides into view (see final.js). */
+.rm_track.rm_panel { height: 100vh; }
+.rm_track.rm_panel .rm_stage { position: absolute; inset: 0; height: 100%; }
+
+/* the door + interior are the centred frame, scaled by the camera (JS) */
+.rm_content, .rm_door {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: var(--rm_fw); height: var(--rm_fh);
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 47.4%;
+  will-change: transform;
+}
+.rm_content { z-index: 2; }
+.rm_door    { z-index: 3; height: auto; }   /* door keeps its 16:9 aspect */
+
+/* wall + tree + ground — FILL the viewport (Figma frame 122), recede on zoom */
+.rm_env {
+  position: absolute; inset: 0;
+  background: var(--rm_red);
+  z-index: 2;
+  transform-origin: 50% 47.4%;
+  will-change: transform, opacity;
+}
+.rm_tree{position:absolute;left:-15vw;bottom:0;width:30vw;height:auto;}
+.rm_ground { position: absolute; left: -25%; right: -25%; bottom: 0; height: var(--rm_band-h); background: var(--rm_ink); }
+
+/* interior content — a tall cream plane (so it fills the portrait window
+   opening) with the 16:9 layout centred inside it. Clipped to the window. */
+.rm_content {
+  height: 150vw;                 /* taller than the window → no red gaps */
+  background: var(--rm_cream);
+  clip-path: inset(8% 0 8% 0);   /* keep cream within the window height */
+}
+.rm_sheet {
+  position: absolute; left: 50%; top: 50%;
+  width: var(--rm_fw); height: var(--rm_fh);
+  transform: translate(-50%, -50%);
+  background: var(--rm_cream);
+}
+.rm_el { position: absolute; height: auto; opacity: var(--rm_el-op, 1); }
+.rm_el--heading { left: 30.6151%; top: 15.5815%; width: 39.0917%; }
+.rm_el--sub     { left: 37.7193%; top: 39.7287%; width: 24.6286%; }
+.rm_el--inbox   { left: 31.9182%; top: 53.1481%; width: 36.5318%; }
+
+/* heading + sub are real HTML text now (were a3-heading.svg / a3-sub.svg).
+   Sized in vw off the 1920px-wide design frame so they zoom with the camera. */
+.rm_el--heading, .rm_el--sub { margin: 0; text-align: center; font-family: var(--rm_font);
+  font-weight: 700; white-space: nowrap; }   /* break ONLY at <br>, never auto-wrap */
+.rm_el--heading { color: var(--rm_red); font-size: 5vw; line-height: 1.0; letter-spacing: -0.01em; }
+.rm_el--sub     { color: var(--rm_ink); font-size: 1.875vw; line-height: 1.15; }
+
+/* no-JS / reduced-motion → show the final pixel-perfect interior */
+.rm_no-js .rm_env, .rm_no-js .rm_door { display: none; }
+.rm_no-js .rm_content { clip-path: none !important; transform: translate(-50%,-50%) !important; }
+.rm_no-js .rm_stage { position: static; background: var(--rm_cream); }
+.rm_no-js .rm_track { height: auto; }
+@media (prefers-reduced-motion: reduce) { .rm_track { height: auto; } }
+
+/* ============ SECTION 2: WHO SHOULD SUBSCRIBE (was style.css; .stage->.rm_who-stage, .ground->.rm_who-ground) ============ */
+/* =================================================================
+   The Pivot Point — "Who Should Subscribe?" section
+   Pixel-faithful recreation of the Figma reference (node 604:1052)
+   ================================================================= */
+
+/* ----------------------------- Tokens ---------------------------- */
+.rm_root {
+  /* Brand palette */
+  --rm_color-cream:           #fffcea;
+  --rm_color-ink:             #131313;
+  --rm_color-red:             #de4b34;
+  --rm_color-red-hover:       #c83f29;
+  --rm_color-muted:           #8d8d8d;     /* intro lead start tone */
+  --rm_color-salmon:          #efa792;     /* faded heading start tone */
+
+  /* Illustration */
+  --rm_color-skyline:         #ece7cd;
+  --rm_color-tree:            #dcd6b8;
+  --rm_color-board-frame:     #f3efd7;
+  --rm_color-board-inner:     #c0bca9;
+  --rm_color-pole:            #c3c1b1;
+  --rm_color-lamp:            #c0bca9;
+
+  /* Card */
+  --rm_card-bg:               #131313;
+  --rm_field-bg:              rgba(255, 255, 255, 0.06);
+  --rm_field-border:          rgba(255, 252, 234, 0.28);
+  --rm_field-placeholder:     rgba(255, 252, 234, 0.55);
+
+  /* Typography */
+  --rm_font-sans: "Lufga", "Helvetica Neue", Arial, sans-serif;
+
+  --rm_fs-h1:        5vw;     /* 96px  */
+  --rm_fs-statement: 2.604vw;  /* 50px  */
+  --rm_fs-audience:  2.083vw;    /* 40px  */
+  --rm_fs-statement-sm: 1.25vw;/* 24px  */
+  --rm_fs-card-title:1.667vw;    /* 32px  */
+  --rm_fs-board:     1.25vw;  /* 24px  */
+  --rm_fs-field:     1rem;                            /* 16px  */
+  --rm_fs-btn:       1.0625rem;                        /* 21px (scaled) */
+
+  --rm_lh-tight: 1.04;
+  --rm_lh-snug:  1.12;
+  --rm_lh-body:  1.34;
+
+  /* Layout */
+  --rm_content-max: 100vw;
+  --rm_gutter: 8.33vw;
+  --rm_radius-card: 34px;
+  --rm_radius-field: 14px;
+  --rm_radius-btn: 15px;
+
+  --rm_ground-h: 12vh;   /* dark road strip height */
+
+  --rm_ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --------------------------- Reset / base ------------------------ */
+
+.rm_container {
+  width: 100%;
+  max-width: var(--rm_content-max);
+  margin-inline: auto;
+  padding-inline: var(--rm_gutter);
+}
+
+/* Generic reveal helper — initial state set here, animated by GSAP.
+   If JS/GSAP fails to load, .rm_is-ready is never removed → content stays visible. */
+.rm_page:not(.rm_is-ready) .rm_js-reveal { will-change: transform, opacity; }
+
+/* ============================== STAGE ============================= */
+/* The stage holds two absolutely-stacked layers. When JS pins it
+   (desktop, motion allowed) both layers overlap and the timeline
+   morphs between them. Without JS / on mobile, `.rm_is-pinned` is never
+   added, so the layers simply stack as two normal full-height blocks. */
+.rm_who-stage {
+  position: relative;
+  background: var(--rm_color-cream);
+}
+
+.rm_who-stage__layer {
+  min-height: 100vh;
+}
+
+.rm_who-stage.rm_is-pinned {
+  height: 100vh;
+  overflow: hidden;
+}
+.rm_who-stage.rm_is-pinned .rm_who-stage__layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---------- LAYER A : intro + audience ---------- */
+/* non-pinned flow: hug the content instead of forcing a 100vh layer (which
+   left a big empty gap because of the space-between below). */
+.rm_who-stage__intro {
+  display: flex;
+  min-height: auto;
+  padding-block: 11.852vh 10vh;
+}
+
+.rm_intro__inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 6vh;
+}
+
+.rm_intro__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4.167vw;
+}
+
+.rm_intro__heading {
+  font-size: var(--rm_fs-h1);
+  font-weight: 600;
+  line-height: 0.96;            /* tight — minimal gap between the two lines */
+  letter-spacing: -0.01em;
+  color: var(--rm_color-red);
+}
+.rm_intro__heading .rm_line-mask + .rm_line-mask { margin-top: -0.02em; }
+
+.rm_intro__statement {
+  align-self: center;
+}
+
+/* ---- Audience columns (Leaders / Teams / Agencies) ---- */
+.rm_audience {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));  /* always fits, never overflows */
+  gap: 3.333vw;
+}
+.rm_audience__col { max-width: 21.875vw; }   /* keep text blocks design-width on wide screens */
+
+.rm_audience__title {
+  font-size: var(--rm_fs-audience);   /* 40px */
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--rm_color-red);
+  margin: 0 0 0.55em;
+}
+
+.rm_audience__desc {
+  font-size: var(--rm_fs-statement-sm); /* 24px */
+  font-weight: 500;
+  line-height: 1.33;
+  color: var(--rm_color-ink);
+  margin: 0;
+}
+
+.rm_statement__lead,
+.rm_statement__accent {
+  font-size: var(--rm_fs-statement);
+  font-weight: 600;
+  line-height: var(--rm_lh-snug);
+  letter-spacing: -0.01em;
+}
+.rm_statement__lead   { color: var(--rm_color-ink); }
+.rm_statement__accent { color: var(--rm_color-red); }
+
+/* Lines rise up from below (parallax reveal) — no clipping. */
+.rm_line-mask {
+  display: block;
+}
+.rm_line {
+  display: block;
+  will-change: transform;
+}
+
+/* Hint the compositor for the elements GSAP transforms */
+.rm_signup,
+.rm_billboard,
+.rm_billboard__art,
+.rm_skyline__img,
+.rm_statement__lead,
+.rm_statement__accent,
+.rm_audience__col {
+  will-change: transform, opacity;
+}
+
+/* ---------- LAYER B : CTA ---------- */
+.rm_who-stage__cta {
+  position: relative;
+  display: flex;
+  align-items: flex-end;            /* bottom-aligned, like the Figma frame */
+  /* bottom padding < ground height → the pole dips slightly onto the road */
+  padding-block: 10vh calc(var(--rm_ground-h) - 2.4vh);
+  overflow: hidden;
+}
+
+/* Ground plane (road + skyline) — moves as one connected unit */
+.rm_cta__scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Dark ground/road strip at the very bottom */
+.rm_who-ground {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--rm_ground-h);
+  background: var(--rm_color-ink);
+}
+
+.rm_cta__grid {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: stretch;
+  gap: 5vw;
+}
+
+/* Left (heading + form) sits near the TOP; billboard stays bottom-right. */
+.rm_cta__left {
+  align-self: start;
+  padding-top: 6vh;
+}
+
+.rm_cta__heading {
+  font-size: var(--rm_fs-statement);
+  font-weight: 600;
+  line-height: var(--rm_lh-snug);
+  letter-spacing: -0.01em;
+  margin-bottom: 2.083vw;
+}
+.rm_cta__heading .rm_line--accent { color: var(--rm_color-red); }
+
+/* ----------------------------- Signup ---------------------------- */
+.rm_signup {
+  background: var(--rm_card-bg);
+  border-radius: var(--rm_radius-card);
+  padding: 2.083vw;
+  max-width: 33.333vw;
+  display: grid;
+  gap: 0.833vw;
+  box-shadow: 0 30px 70px -30px rgba(19, 19, 19, 0.45);
+}
+
+.rm_signup__title {
+  color: #fff;
+  font-size: var(--rm_fs-card-title);
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.rm_signup__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75vw;
+}
+
+.rm_signup__input {
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--rm_fs-field);
+  font-weight: 400;
+  color: var(--rm_color-cream);
+  background: var(--rm_field-bg);
+  border: 1px solid var(--rm_field-border);
+  border-radius: var(--rm_radius-field);
+  padding: 0.95rem 1.1rem;
+  transition: border-color 0.3s var(--rm_ease-out),
+              background-color 0.3s var(--rm_ease-out),
+              box-shadow 0.3s var(--rm_ease-out);
+}
+.rm_signup__input::placeholder { color: var(--rm_field-placeholder); }
+.rm_signup__input:hover { border-color: rgba(255, 252, 234, 0.45); }
+.rm_signup__input:focus {
+  outline: none;
+  border-color: var(--rm_color-red);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 0 0 3px rgba(222, 75, 52, 0.25);
+}
+
+.rm_signup__btn {
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--rm_fs-btn);
+  font-weight: 700;
+  color: var(--rm_color-cream);
+  background: var(--rm_color-red);
+  border: none;
+  border-radius: var(--rm_radius-btn);
+  padding: 1.05rem 1.25rem;
+  margin-top: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s var(--rm_ease-out),
+              transform 0.25s var(--rm_ease-out),
+              box-shadow 0.3s var(--rm_ease-out);
+}
+.rm_signup__btn:hover {
+  background: var(--rm_color-red-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -12px rgba(222, 75, 52, 0.7);
+}
+.rm_signup__btn:active { transform: translateY(0); }
+
+/* ---------------------------- Billboard -------------------------- */
+/* Built around the exact Figma billboard group (606 x 740):
+   - billboard graphic (Billboard2 node) sits at x 108, full height
+   - street lamp (node 432:350) at the lower-left
+   - live copy is overlaid on the red board (node text 432:381/382) */
+.rm_cta__right {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.rm_billboard {
+  position: relative;
+  height: 70.37vh;   /* tall enough for the pole to reach the ground */
+  aspect-ratio: 606 / 740;
+  container-type: inline-size;
+  transform-origin: bottom center;
+}
+
+/* Billboard board + lamps + pole (exact Figma SVG) */
+.rm_billboard__art {
+  position: absolute;
+  top: 0;
+  left: 17.82%;       /* 108 / 606 */
+  width: 82.18%;      /* 498 / 606 */
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 24px 40px rgba(19, 19, 19, 0.22));
+}
+
+/* Street lamp at the base (exact Figma SVG) */
+.rm_billboard__lamp {
+  position: absolute;
+  left: 0;
+  top: 81.2%;         /* 601 / 740 */
+  width: 12.87%;      /* 78 / 606  */
+  height: auto;
+  display: block;
+}
+
+/* Live copy overlaid on the red board */
+.rm_billboard__copy {
+  position: absolute;
+  top: 11.9%;         /* 88 / 740  */
+  left: 24.4%;        /* 148 / 606 */
+  width: 68.5%;       /* 415 / 606 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.85em;
+}
+
+.rm_billboard__text {
+  color: var(--rm_color-cream);
+  font-weight: 600;
+  font-size: 3.96cqw;     /* 24 / 606 of the billboard width */
+  line-height: 1.33;
+  margin: 0;
+}
+
+/* ---------------------------- Skyline ---------------------------- */
+/* Exact Figma skyline vector (5271 x 304, #131313 @ 10% opacity).
+   Scaled so one design unit matches a 1920-wide artboard and pinned
+   to the bottom-left, overflowing right (clipped). */
+.rm_skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--rm_ground-h) - 1.8vh); /* dips slightly onto the road — no cream gap */
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  line-height: 0;
+}
+.rm_skyline__img {
+  display: block;
+  width: 274.5vw;     /* 5271 / 1920 */
+  height: auto;
+}
+
+/* ============================ Responsive ============================ */
+
+/* Above 1920 — KEEP the whole design scaling with the viewport so the 1920
+   ratio is preserved on any larger screen. The layout is already vw/%-based,
+   so the only thing that would otherwise break ratio is the clamp() MAX caps
+   on type + widths (they all top out around 1920, freezing while the full-
+   width panels keep growing). Here every capped token is set to its clamp vw
+   term (uncapped), so 100vw === the 1920 artboard at every size. Pure CSS —
+   no transforms — so the GSAP pin/scroll math is unaffected. */
+@media (min-width: 1921px) {
+  /* .rm_root.rm_root → higher specificity than the plain .rm_root token blocks
+     that appear LATER in this file, so these uncapped values reliably win. */
+  .rm_root.rm_root {
+    /* screen-3 horizontal-scroll type scale */
+    --rm_fs-h1:    5vw;
+    --rm_fs-h2:    2.6vw;
+    --rm_fs-body:  1.667vw;
+    --rm_fs-li:    1.25vw;
+    --rm_fs-small: 0.73vw;
+
+    /* "Who Should Subscribe?" section type scale */
+    --rm_fs-statement:    2.7vw;
+    --rm_fs-audience:     2.1vw;
+    --rm_fs-statement-sm: 1.3vw;
+    --rm_fs-card-title:   1.9vw;
+    --rm_fs-board:        1.45vw;
+    --rm_fs-field:        0.833vw;
+    --rm_fs-btn:          0.886vw;
+
+    /* let the composition fill the width instead of capping at 1760px */
+    --rm_content-max: 100vw;
+    --rm_gutter:      8.33vw;
+
+    /* corner radii scale too (= their 1920 px ÷ 19.2) */
+    --rm_radius-card:  1.771vw;   /* 34px */
+    --rm_radius-field: 0.729vw;   /* 14px */
+    --rm_radius-btn:   0.781vw;   /* 15px */
+  }
+
+  /* Fixed-px layout dimensions → vw (value ÷ 19.2 of the 1920 design px), so
+     EVERY box scales with width and the page is an exact 1920 enlargement.
+     Prefixed with .rm_root to outrank the later base rules. */
+
+  /* — screen-3 panels — */
+  .rm_root .rm_help-left{ max-width:40.625vw; }                 /* 780 */
+  .rm_root .rm_help-bullets{ margin-top:2.4vw; }
+  .rm_root .rm_help-card{ flex-basis:20.833vw; padding:2.1vw; gap:0.833vw; border-radius:1.771vw; }  /* 400 / 16 / 34 */
+  .rm_root .rm_help-card .rm_row{ gap:0.833vw; }
+  .rm_root .rm_help-card input{ padding:0.833vw 0.9375vw; border-radius:0.729vw; font-size:0.833vw; }  /* 16 18 / 14 / 16 */
+  .rm_root .rm_help-card .rm_send{ padding:0.833vw; margin-top:0.208vw; border-radius:0.781vw; font-size:0.9375vw; }  /* 16 / 4 / 15 / 18 */
+  .rm_root .rm_is-cols{ gap:6vw; }
+  .rm_root .rm_is-col .rm_txt{ margin-bottom:2.083vw; }         /* 40 */
+  .rm_root .rm_is-cols .rm_is-col:nth-child(1) .rm_txt{ max-width:19.375vw; }  /* 372 */
+  .rm_root .rm_is-cols .rm_is-col:nth-child(2) .rm_txt{ max-width:20.989vw; }  /* 403 */
+  .rm_root .rm_is-cols .rm_is-col:nth-child(3) .rm_txt{ max-width:18.229vw; }  /* 350 */
+  .rm_root .rm_finale__window{ width:15vw; }
+
+  /* — "Who Should Subscribe?" section — */
+  .rm_root .rm_intro__top{ gap:5vw; }
+  .rm_root .rm_audience{ gap:4vw; }
+  .rm_root .rm_audience__col{ max-width:21.875vw; }             /* 420 */
+  .rm_root .rm_cta__grid{ gap:5vw; }
+  .rm_root .rm_signup{ max-width:33.333vw; padding:2.3vw; gap:1vw; }  /* 640 */
+  .rm_root .rm_signup__row{ gap:0.9vw; }
+  .rm_root .rm_signup__input{ padding:0.792vw 0.917vw; }        /* 0.95rem 1.1rem */
+  .rm_root .rm_signup__btn{ padding:0.875vw 1.042vw; }          /* 1.05rem 1.25rem */
+  .rm_root .rm_billboard{ height:39.583vw; }                    /* 760 — was vh-capped */
+}
+
+/* Pinned range but narrower (small laptops / iPad landscape) — pull the
+   gutter in so the 2- and 3-column layouts keep breathing room. */
+@media (min-width: 981px) and (max-width: 1280px) {
+  .rm_root { --rm_gutter: 4.167vw; }
+  .rm_who-stage__intro { padding-block: 8.889vh 10.37vh; }
+}
+
+/* Short, wide screens (e.g. 1366×768 laptops) in the pinned experience —
+   trim vertical padding so the intro + columns fit within 100vh. */
+@media (min-width: 981px) and (max-height: 800px) {
+  .rm_who-stage__intro { padding-block: 7.407vh 7.407vh; }
+  .rm_intro__inner { gap: 5.926vh; }
+}
+
+/* ---- Tablet & below: no pin, content stacks and scrolls naturally ---- */
+@media (max-width: 980px) {
+  .rm_who-stage__layer { min-height: 0; }
+
+  .rm_who-stage__intro { padding-block: 10.37vh 5.926vh; }
+  .rm_intro__inner { gap: 5.926vh; }
+  .rm_intro__top {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+  .rm_intro__statement { align-self: start; }
+
+  .rm_audience {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.083vw;
+  }
+  .rm_audience__col { max-width: none; }
+
+  .rm_who-stage__cta { align-items: stretch; padding-block: 8.889vh 4rem; }
+  .rm_cta__grid { grid-template-columns: 1fr; gap: 100px; align-items: start; }
+  .rm_cta__left { padding-top: 0; padding-bottom: 0; }
+  .rm_cta__right { justify-content: flex-start; }
+  .rm_billboard { height: auto; width: min(100%, 460px); }
+}
+
+/* ---- Portrait tablets: audience back to a single readable column ---- */
+@media (max-width: 760px) {
+  .rm_audience {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 560px) {
+  .rm_root {
+    --rm_gutter: 1.25rem;
+    --rm_ground-h: 8.333vh;
+  }
+
+  .rm_signup { padding: 1.5rem 1.25rem; border-radius: 24px; }
+  .rm_signup__row { grid-template-columns: 1fr; }
+
+  .rm_billboard { width: 100%; max-width: 380px; }
+}
+
+/* ---- Small phones ---- */
+@media (max-width: 380px) {
+  .rm_intro__heading { font-size: 2.5vw; }
+  .rm_signup { padding: 1.25rem 1rem; }
+}
+
+/* Reduced motion — neutralise transitions/animations */
+@media (prefers-reduced-motion: reduce) {
+  .rm_root { scroll-behavior: auto; }
+  .rm_root * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --- merge safeguard: the Who-Subscribe section + its layers always paint
+   their cream background, so the page's red wall can never show through --- */
+#rm_who-page{margin-top: 20vh;}
+#rm_who-page, .rm_who-stage, .rm_who-stage__layer { background: var(--rm_color-cream); }
+
+/* ===================== SCREEN 3 STYLES (screen3.css) ===================== */
+/* ============================================================
+   SCREEN 3 — THE PIVOT POINT   (Figma node 1165:20 → Group 143690)
+   ------------------------------------------------------------
+   The storyboard rebuilt as a real GSAP HORIZONTAL SMOOTH SCROLL.
+   Every scene is hand-built HTML/CSS + inline SVG (no frame images).
+   Panels map to Figma frame ids: 95 → 105/97 → 114 → 111 → (approach)
+   → 119/120.  A faint far skyline + solid trees + dark near skyline run
+   beneath the cream panels; the track ends at the coral building finale.
+
+   Desktop : flex-row track, pinned, pans sideways (scrub-smoothed),
+             content fades IN and OUT as it crosses the viewport.
+   Mobile / reduced-motion : panels stack vertically (normal scroll).
+   Fluid sizing: artboard 1920px === 100vw.
+   ============================================================ */
+.rm_root{
+  --rm_cream:  #FFFCEA;
+  --rm_ink:    #131313;
+  --rm_coral:  #DE4B34;
+  --rm_sub-ink:#000000;
+  --rm_font:'Lufga', system-ui, -apple-system, sans-serif;
+
+  --rm_fs-h1:   5vw;
+  --rm_fs-h2:   2.6vw;
+  --rm_fs-body: 1.667vw;
+  --rm_fs-li:   1.25vw;
+  --rm_fs-small:0.73vw;
+
+  /* vertical sizing in vh to match the 1080-tall design proportions */
+  --rm_band-h: 12vh;
+  --rm_sky-h:  34.6vh;
+}
+
+
+/* ---------- pinned horizontal viewport ---------- */
+.rm_hscroll{ position:relative; height:100vh; width:100%; overflow:hidden; background:var(--rm_cream); }
+.rm_htrack{ display:flex; width:max-content; height:100vh; position:relative; will-change:transform; }
+
+/* continuous bottom layers (sit beneath the cream panels) */
+.rm_track-band{ position:absolute; left:0; bottom:0; width:100%; height:var(--rm_band-h);
+  background:var(--rm_ink); z-index:6; }
+/* faint buildings (10% in the SVG) with solid trees baked in at the design
+   positions, so trees always pan locked to the skyline */
+/* width:max-content exposes the full tiled width so the parallax drift never
+   reveals a gap; will-change:transform keeps the slow drift smooth */
+/* z-index:-1 keeps the parallax skyline a true backdrop: it shows through the
+   transparent early panels but is covered by any panel that has its own
+   background (the coral finale), so the drift never bleeds into that scene */
+.rm_track-skyline{ position:absolute; left:0; bottom:calc(var(--rm_band-h) - 2px); width:max-content; height:var(--rm_sky-h);
+  z-index:-1; display:flex; overflow:visible; pointer-events:none; will-change:transform; }
+.rm_track-skyline svg{ height:100%; width:auto; flex:0 0 auto; }
+
+/* ---------- panels ---------- */
+/* sections are managed in vw — each panel is one viewport wide */
+.rm_panel{ flex:0 0 100vw; width:100vw; height:100vh; position:relative; }
+.rm_panel__inner{ position:absolute; left:0; width:100%; z-index:5; padding:0 7vw; }
+.rm_rv{ will-change:opacity; opacity: 1 !important;}
+
+/* 1 — Welcome to The Pivot Point (95) */
+.rm_panel--intro .rm_panel__inner{ top:16%; text-align:center; }
+.rm_tp-title{ font-weight:600; font-size:var(--rm_fs-h1); color:var(--rm_coral);
+  line-height:1.042; letter-spacing:0; }                      /* 96px · LH 100 */
+.rm_tp-sub{ font-weight:500; font-size:var(--rm_fs-body); color:var(--rm_sub-ink);
+  line-height:1.305; letter-spacing:0; margin-top:2.78vh; }   /* 32px · LH 41.77 */
+
+/* 2 — It's not here to overwhelm you … + bullets + signup card (105/97) */
+.rm_panel--help .rm_panel__inner{ top:20%; display:flex; gap:5vw; align-items:flex-start; justify-content:space-between; }
+.rm_help-left{ flex:1 1 52%; max-width:40.625vw; }
+.rm_help-head{ font-weight:600; font-size:var(--rm_fs-h2); line-height:1.12; letter-spacing:0; color:var(--rm_ink); }  /* 50px · LH 56 */
+.rm_help-head .rm_accent{ color:var(--rm_coral); }
+.rm_help-bullets{ list-style:none; margin-top:2.396vw; }
+.rm_help-bullets li{ font-size:var(--rm_fs-li); font-weight:500; color:var(--rm_sub-ink); line-height:1.333;
+  letter-spacing:0; padding-left:1.4em; position:relative; margin:.5em 0; }   /* 24px · LH 32 */
+/* centre the dot on the first text line: line-box centre = line-height/2
+   (1.333em/2 ≈ .667em), then pull the dot back by half its own height */
+.rm_help-bullets li::before{ content:""; position:absolute; left:0; top:.667em; transform:translateY(-50%);
+  width:.5em; height:.5em; border-radius:50%; background:var(--rm_coral); }
+/* dark card · translucent cream inputs · coral SEND (matches frame 97) */
+.rm_help-card{ flex:0 0 400px; max-width:38vw; background:var(--rm_ink); border-radius:34px;
+  padding:1.979vw; display:flex; flex-direction:column; gap:16px; }
+.rm_help-card .rm_row{ display:flex; gap:16px; }
+.rm_help-card input{ flex:1 1 0; min-width:0; background:rgba(255,252,234,.10); border:none;
+  border-radius:14px; padding:16px 18px; color:#fff; font-family:var(--rm_font); font-size:16px; }
+.rm_help-card input::placeholder{ color:rgba(255,252,234,.55); }
+.rm_help-card .rm_send{ width:100%; margin-top:4px; background:var(--rm_coral); color:var(--rm_cream); border:none;
+  border-radius:15px; padding:16px; font-family:var(--rm_font); font-weight:700; font-size:18px;
+  letter-spacing:.06em; cursor:pointer; }
+
+/* 3 — Why This Newsletter Matters (114) — title + description left-aligned */
+.rm_panel--matters .rm_panel__inner{ top:18%; text-align:left; }
+.rm_matters-title{ font-weight:600; font-size:var(--rm_fs-h1); color:var(--rm_coral);
+  line-height:1.042; letter-spacing:0; }
+.rm_matters-sub{ font-weight:500; font-size:var(--rm_fs-body); color:var(--rm_sub-ink);
+  line-height:1.305; letter-spacing:0; margin-top:2.78vh; }
+
+/* 4 — This newsletter is: + three columns, each on a billboard (111/127/151)
+   Vertical footprint matches the design (1080-based): heading top ≈14.8vh,
+   column text ≈28vh, billboard 42.2vh tall with its base on the band. */
+.rm_panel--is .rm_panel__inner{ inset:0; height:100%; display:flex; flex-direction:column;
+  padding:14.8vh 6vw var(--rm_band-h); }
+.rm_is-head{ font-weight:600; font-size:var(--rm_fs-h2); color:var(--rm_coral); line-height:1.12; letter-spacing:0;
+  margin-bottom:2vw; }
+.rm_is-cols{ flex:1; display:flex; gap:6vw; align-items:stretch; min-height:0; }
+.rm_is-col{ flex:1 1 0; display:flex; flex-direction:column; align-items:flex-start; }
+/* per-column description widths (from design), left-aligned */
+.rm_is-col .rm_txt{ font-size:var(--rm_fs-li); font-weight:500; color:var(--rm_sub-ink); line-height:1.333;
+  letter-spacing:0; margin-bottom: 3.704vh;}
+.rm_is-cols .rm_is-col:nth-child(1) .rm_txt{ max-width:19.375vw; }
+.rm_is-cols .rm_is-col:nth-child(2) .rm_txt{ max-width:20.99vw; }
+.rm_is-cols .rm_is-col:nth-child(3) .rm_txt{ max-width:18.229vw; }
+/* billboard left-aligns with its description (left edges match the design),
+   width 318/1920 = 16.56vw; margin-top:auto keeps its base on the band */
+.rm_is-col .rm_board{ margin-top:auto; align-self:flex-start; }
+.rm_is-col .rm_board svg{ width:16.56vw; height:auto; display:block; }
+
+/* 5 — approach: dark foreground skyline + tree leading to the building (131/100/117) */
+.rm_panel--approach{ overflow:hidden; }
+.rm_approach-sky{ position:absolute; left:50%; transform:translateX(-50%); bottom:calc(var(--rm_band-h) - 2px);
+  height:calc(var(--rm_sky-h) * 1.3); z-index:2; }
+.rm_approach-sky svg{ height:100%; width:auto; }
+.rm_approach-tree{ position:absolute; bottom:var(--rm_band-h); left:72%; height:16vh; z-index:3; }
+.rm_approach-tree svg{ height:100%; width:auto; }
+
+/* 6 — coral building finale (119/120) */
+.rm_panel--finale{ background:var(--rm_coral); }
+.rm_finale__tree{ position:absolute; bottom:var(--rm_band-h); left:1.5vw; height:96vh; width:auto; z-index:2; }
+.rm_finale__window{ position:absolute; left:52%; bottom:calc(var(--rm_band-h) + 15vh);
+  width:15vw; height:auto; z-index:2; }
+
+/* ============================================================
+   STACKED LAYOUT — mobile + reduced motion (vertical scroll)
+   ============================================================ */
+@media (max-width:1024px), (prefers-reduced-motion:reduce){
+  .rm_hscroll{ height:auto; overflow:visible; }
+  .rm_htrack{ flex-direction:column; width:100%; height:auto; transform:none !important; }
+  .rm_panel{ flex:0 0 auto; width:100%; height:auto; min-height:auto; overflow:hidden; }
+  .rm_track-band, .rm_track-skyline, .rm_track-trees{ display:none; }
+
+  .rm_panel:not(.rm_panel--finale)::after{ content:""; position:absolute; left:0; bottom:0;
+    width:100%; height:var(--rm_band-h); background:var(--rm_ink); z-index:1; opacity: 0; }
+  .rm_panel__inner{ position:relative; left:auto; top:auto !important; inset:auto;
+    height:auto; display:block; padding:80px 20px; }
+
+  .rm_panel--help .rm_panel__inner{ display:flex; gap:7vw; padding-top: 0;}
+  .rm_help-left{ max-width:100%; }
+  .rm_help-card{ flex:0 0 auto; width:100%; max-width:520px; padding: 25px;
+    border-radius: 20px;}
+  .rm_panel--matters .rm_panel__inner {    
+    text-align: left;
+    padding-top: 0;
+}
+  .rm_panel--is .rm_panel__inner{ display:block; padding: 0px 20px 80px 20px;}
+  /* .rm_is-cols{ flex-direction:column; gap:40px; max-width:560px; } */
+  .rm_is-col .rm_board{ margin-top:18px; align-self:flex-start; }
+  .rm_is-col .rm_board svg{ height:auto; width:100%; max-width:240px; }
+
+  .rm_panel--approach{display: none; }
+  .rm_approach-sky{ height:auto; width:130%; }
+  .rm_approach-tree{ height:auto; width:34vw; max-width:200px; left:8vw; }
+  .rm_panel--finale{ min-height:88svh; }
+  .rm_finale__tree{ height:auto; width:40vw; max-width:240px; }
+  .rm_finale__window{ left:auto; right:10vw; width:30vw; max-width:200px; }
+  .rm_panel--is:after {
+    opacity: 1 !important;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){ .rm_rv{ opacity:1 !important; transform:none !important; } }
+
+/* ============================================================
+   MOBILE / TABLET (≤1024px) — the rm_ type tokens are vw off the
+   1920 frame, so on small screens an h1 (5vw) is ~19px and body
+   (1.667vw) is ~6px. Override the tokens with fixed sizes. The
+   window-reveal text (.rm_el--heading/--sub) stays vw on purpose —
+   it scales with the camera-zoom — so it is NOT touched here. Placed
+   last to win by source order. Desktop (≥1025px) untouched.
+   ============================================================ */
+@media (max-width:1024px){
+  .rm_root{
+    --rm_fs-h1:           2rem;   /* was 5vw      */
+    --rm_fs-h2:           2rem;  /* was 2.6vw    */
+    --rm_fs-statement:    1.5rem;    /* was 2.604vw  */
+    --rm_fs-audience:     1.375rem;  /* was 2.083vw  */
+    --rm_fs-statement-sm: 1rem; /* was 1.25vw   */
+    --rm_fs-card-title:   1.25rem;   /* was 1.667vw  */
+    --rm_fs-board:        1rem;      /* was 1.25vw   */
+    --rm_fs-body:         1rem;      /* was 1.667vw  */
+    --rm_fs-li:           1rem;      /* was 1.25vw   */
+    --rm_fs-small:        0.8125rem; /* was 0.73vw   */
+  }
+  /* beat the leftover small-phone rule that pinned this to 2.5vw (~9px) */
+  .rm_intro__heading{ font-size:2.25rem; }
+
+  /* ---- DOOR REVEAL DISABLED ≤1024 (see screen4.js): show the window interior
+     (.rm_content) as a normal, readable stacked block instead of the camera-zoom
+     reveal. rm_render(0) runs on load and leaves inline transform/scale +
+     --rm_el-op:0 on these nodes, so these overrides need !important to win. ---- */
+  .rm_track.rm_panel{ height:auto; }
+  .rm_track.rm_panel .rm_stage{ position:static; height:auto; background:var(--rm_cream); }
+  .rm_env, .rm_door, .rm_interior{ display:none !important; }
+  .rm_content{
+    position:static; left:auto; top:auto; width:100%; height:auto;
+    transform:none !important; clip-path:none !important;
+    background:var(--rm_cream); padding:80px 20px;
+  }
+  #rm_who-page{
+    margin-top: 0;
+  }
+  .rm_who-stage__intro {
+    padding: 80px 20px;
+  }
+  .rm_container{
+    padding: 0 ;
+  }
+ 
+  .rm_sheet{
+    position:static; left:auto; top:auto; width:100%; height:auto;
+    transform:none !important;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:1.5rem;
+  }
+  .rm_el{ position:static; left:auto !important; top:auto !important;
+          width:auto; opacity:1 !important; }
+  .rm_el--heading{ font-size:2rem; line-height:1.1; }
+  .rm_el--sub{ font-size:1.125rem; line-height:1.3; }
+  .rm_el--inbox{ width:100%; max-width:520px; height:auto; }
+  .rm_who-stage__layer {
+    min-height: auto;
+    padding-top: 0;
+}
+.rm_who-stage__cta {
+  padding: 80px 20px;
+}
+.rm_who-stage__cta {
+  padding-top: 80px;
+}
+.rm_cta__heading {
+  margin-bottom: 50px;
+}
+.rm_billboard {
+
+  height: 53vw;
+}
+.rm_cta__left {
+  
+  padding-top: 0vh;
+}
+.rm_signup {
+  background: var(--rm_card-bg);
+  border-radius: 20px;
+  padding: 25px;
+  max-width: 100%;
+  display: grid;
+  gap: 0.833vw;
+  box-shadow: 0 30px 70px -30px rgba(19, 19, 19, 0.45);
+}
+}
+
+/* ---- ≤991px · tablet ---- */
+@media (max-width:991px){
+  .rm_intro__heading{ font-size:2rem; }
+  .rm_billboard {
+    height: 300px;
+}
+}
+
+/* ---- ≤767px · large phone / small tablet ---- */
+@media (max-width:767px){
+  
+  .rm_is-cols {
+    gap: 40px;
+    flex-direction: column;
+    max-width: 100%;
+}
+  .rm_panel--help .rm_panel__inner {   
+    flex-direction: column;
+}
+.rm_who-stage__cta {
+  padding-top: 0;
+}
+.rm_is-cols .rm_is-col:nth-child(1) .rm_txt,
+.rm_is-cols .rm_is-col:nth-child(2) .rm_txt,
+.rm_is-cols .rm_is-col:nth-child(3) .rm_txt {
+  max-width: max-content;
+}
+.rm_help-card .rm_row {
+  flex-direction: column;
+}
+.rm_signup,
+.rm_signup__row {
+  gap: 15px;
+}
+}
+
+/* ---- ≤576px · phone ---- */
+@media (max-width:576px){
+  .rm_root{
+    --rm_fs-h1:          1.5rem;   /* was 5vw      */
+    --rm_fs-h2:           1.5rem;  /* was 2.6vw    */
+    --rm_fs-statement:    1.25rem;    /* was 2.604vw  */
+    --rm_fs-audience:     1.125rem;  /* was 2.083vw  */
+    --rm_fs-statement-sm: 1rem; /* was 1.25vw   */
+    --rm_fs-card-title:   1rem;   /* was 1.667vw  */
+    --rm_fs-board:        1rem;      /* was 1.25vw   */
+    --rm_fs-body:         1rem;      /* was 1.667vw  */
+    --rm_fs-li:           1rem;      /* was 1.25vw   */ 
+  }
+  .rm_signup,
+  .rm_signup__row {
+    gap: 15px;
+}
+}
