@@ -31,7 +31,13 @@
     rm_dctx.drawImage(rm_cache[rm_n], 0, 0);
     rm_lastF = rm_n;
   }
-  for (var rm_i = 1; rm_i <= rm_FRAMES; rm_i++) {
+  // MOBILE MEMORY GUARD: caching all 35 frames as 2048×1152 offscreen canvases
+  // is ~315MB — it blows iOS Safari's per-tab cap and reloads the page. The door
+  // reveal is DESKTOP-ONLY (≤1024 it never opens; the canvas is display:none),
+  // so below 1025 we cache ONLY frame 1 (the closed door) and skip the rest.
+  var rm_isDesktop = window.matchMedia("(min-width: 1025px)").matches;
+  var rm_loadTo = rm_isDesktop ? rm_FRAMES : 1;
+  for (var rm_i = 1; rm_i <= rm_loadTo; rm_i++) {
     (function (rm_n) {
       var rm_im = new Image();
       rm_im.onload = function () {

@@ -1,5 +1,16 @@
 gsap.registerPlugin(ScrollTrigger);
 
+/* ─────────────────────────────────────────────────────────────────────────
+   MOBILE MEMORY GUARD. The frame-sequence animations (intro parson, the
+   push/kick "cut" rig, the door reveal) are ALL desktop-only (≤1024 they are
+   disabled or shown as static/stacked). Preloading every frame regardless of
+   device decodes hundreds of MB of images/canvases — far past iOS Safari's
+   per-tab memory cap, so Safari kills & reloads the tab ("page won't load").
+   Gate every heavy preload on this flag. (Read once at load; a rare resize
+   across the breakpoint just means a reload picks up the full set.)
+   ───────────────────────────────────────────────────────────────────────── */
+const IS_DESKTOP = window.matchMedia('(min-width: 1025px)').matches;
+
 
 /* hide scroll hint after first move */
 ScrollTrigger.create({ start:'top -5%',
@@ -38,6 +49,10 @@ function pDrawParson(n){
   pctx.drawImage(parsonFrames[n], 0, 0, PW, PH);
 }
 PARSON.forEach((svg, n)=>{
+  /* MOBILE: decode ONLY frame 0 (the static character shown in the intro).
+     Decoding all 52 frames (~280MB rasterised) crashes iOS Safari, and below
+     1024 the cycle just holds frame 0 anyway. */
+  if(!IS_DESKTOP && n !== 0) return;
   /* Safari only rasterises an SVG to <canvas> if it carries intrinsic width/height
      (a viewBox alone is not enough), so inject them from the artboard size. */
   const sized = svg.replace(/<svg\b/i, '<svg width="1510" height="910.5"');
@@ -512,8 +527,13 @@ const seqURL  = i => `img/File_${i}.svg`;
 const kickURL = i => `kick-frames/Kick_${i}.svg`;
 const seqFrame = document.getElementById('seqFrame');
 const preload = url => { const im = new Image(); im.src = url; };
-for(let i=1;i<=SEQ_FRAMES;i++)  preload(seqURL(i));
-for(let i=1;i<=KICK_FRAMES;i++) preload(kickURL(i));
+/* DESKTOP-ONLY: the push/kick "cut" rig is a pinned desktop animation; ≤1024
+   the section is stacked static, so preloading 140 frames there is pure waste
+   (and contributes to the iOS memory crash). The first frame is still shown. */
+if(IS_DESKTOP){
+  for(let i=1;i<=SEQ_FRAMES;i++)  preload(seqURL(i));
+  for(let i=1;i<=KICK_FRAMES;i++) preload(kickURL(i));
+}
 let curFrameSrc = '';
 function setFrame(src){ if(src === curFrameSrc) return; curFrameSrc = src; seqFrame.src = src; }
 function showSeqFrame(i){ setFrame(seqURL(i)); }   // PUSH set
