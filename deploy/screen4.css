@@ -781,9 +781,9 @@ g.pathstroke > path {
   .rm_panel__inner{ position:relative; left:auto; top:auto !important; inset:auto;
     height:auto; display:block; padding:80px 20px; }
 
-  .rm_panel--help .rm_panel__inner{ display:flex; gap:7vw; padding-top: 0;}
+  .rm_panel--help .rm_panel__inner{ display:flex; gap:20px; padding-top: 0;}
   .rm_help-left{ max-width:100%; }
-  .rm_help-card{ flex:0 0 auto; width:100%; max-width:520px; padding: 25px;
+  .rm_help-card{ flex:0 0 auto; width:100%; max-width:50%; padding: 25px;
     border-radius: 20px;}
   .rm_panel--matters .rm_panel__inner {    
     text-align: left;
@@ -881,9 +881,9 @@ g.pathstroke > path {
 
   height: 53vw;
 }
-.rm_cta__left {
-  
+.rm_cta__left {  
   padding-top: 0vh;
+  padding-bottom: 80px;
 }
 .rm_signup {
   background: var(--rm_card-bg);
@@ -899,8 +899,11 @@ g.pathstroke > path {
 /* ---- ≤991px · tablet ---- */
 @media (max-width:991px){
   .rm_intro__heading{ font-size:2rem; }
+  .rm_cta__left { 
+    padding-bottom: 0px;
+  }
   .rm_billboard {
-    height: 300px;
+    height: 400px;
 }
 }
 
@@ -930,6 +933,32 @@ g.pathstroke > path {
 .rm_signup__row {
   gap: 15px;
 }
+
+.rm_billboard {
+  height: 70vw;
+}
+.rm_panel .rm_rv{
+  position: relative;
+}
+.rm_panel.rm_panel--is .rm_rv:not(.rm_is-head)::after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: 0;
+  width: calc(100% + 40px);
+  height: 50px;
+  background: var(--rm_ink);
+  z-index: 1;
+  
+}
+.rm_panel:not(.rm_panel--finale)::after { 
+  opacity: 0 !important;
+}
+.rm_panel--is .rm_panel__inner {
+  padding: 0px 20px 0px 20px;
+}
+.rm_help-card{ max-width:100%;}
+
 }
 
 /* ---- ≤576px · phone ---- */
@@ -949,4 +978,5 @@ g.pathstroke > path {
   .rm_signup__row {
     gap: 15px;
 }
+
 }
