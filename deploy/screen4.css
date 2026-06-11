@@ -1,982 +1,429 @@
 /* ===== MERGED from screen4.css — globals scoped under .rm_root (rm_-prefixed) ===== */
-/* ===== SECTION 1: WINDOW (style3.css) ===== */
-
-/* cream interior backing — scales WITH the door (camZ) so the window opening
-   is always full cream (no red wall shows inside the door) */
-.rm_interior {
-  position: absolute; left: 50%; top: 50%;
-  width: 33vw; height: 45vw;
-  transform: translate(-50%,-50%); transform-origin: 50% 47.4%;
-  background: var(--rm_cream); z-index: 2; will-change: transform;
-}
-.rm_content { z-index: 3 !important; background: transparent !important; }
-.rm_sheet { background: transparent !important; }
-g.pathstroke > path {
-  stroke: #4b4b4b;
-}
-/* =================================================================
-   The Pivot Point — Window Reveal (door = 35-frame sequence).
-   The door starts CLOSED (d_01) and opens as you scroll while the
-   camera flies in and the interior fills the screen.
-   ================================================================= */
-:root {
-  --rm_red:   #de4b34;
-  --rm_cream: #fffcea;
-  --rm_ink:   #131313;
-  --rm_fw: 100vw;                      /* the 1920x1080 frame fills the width */
-  --rm_fh: calc(var(--rm_fw) * 0.5625);
-}
-
-.rm_track { height: 360vh; position: relative; }
-.rm_stage {
-  position: sticky; top: 0;
-  height: 100vh; width: 100%;
-  overflow: visible;
-  background: var(--rm_red);
-}
-
-/* The window reveal is the LAST panel of the horizontal track: it sizes like a
-   panel (100vw x 100vh) and its stage fills it. The door/zoom reveal is driven
-   by the horizontal pan's progress as this panel slides into view (see final.js). */
-.rm_track.rm_panel { height: 100vh; }
-.rm_track.rm_panel .rm_stage { position: absolute; inset: 0; height: 100%; }
-
-/* the door + interior are the centred frame, scaled by the camera (JS) */
-.rm_content, .rm_door {
-  position: absolute;
-  left: 50%; top: 50%;
-  width: var(--rm_fw); height: var(--rm_fh);
-  transform: translate(-50%, -50%);
-  transform-origin: 50% 47.4%;
-  will-change: transform;
-}
-.rm_content { z-index: 2; }
-.rm_door    { z-index: 3; height: auto; }   /* door keeps its 16:9 aspect */
-
-/* wall + tree + ground — FILL the viewport (Figma frame 122), recede on zoom */
-.rm_env {
-  position: absolute; inset: 0;
-  background: var(--rm_red);
-  z-index: 2;
-  transform-origin: 50% 47.4%;
-  will-change: transform, opacity;
-}
+/* ===== SECTION 1:WINDOW (style3.css) ===== */
+/* cream interior backing — scales WITH the door (camZ) so the window opening is always full cream (no red wall shows inside the door) */
+.rm_interior{position:absolute;left:50%;top:50%;width:33vw;height:45vw;transform:translate(-50%,-50%);transform-origin:50% 47.4%;background:var(--rm_cream);z-index:2;will-change:transform;}
+.rm_content{z-index:3 !important;background:transparent !important;}
+.rm_sheet{background:transparent !important;}
+g.pathstroke > path{stroke:#4b4b4b;}
+/* ================================================================= The Pivot Point — Window Reveal (door = 35-frame sequence). The door starts CLOSED (d_01) and opens as you scroll while the camera flies in and the interior fills the screen. ================================================================= */
+:root{--rm_red:#de4b34;--rm_cream:#fffcea;--rm_ink:#131313;--rm_fw:100vw;/* the 1920x1080 frame fills the width */
+ --rm_fh:calc(var(--rm_fw) * 0.5625);}
+.rm_track{height:360vh;position:relative;}
+.rm_stage{position:sticky;top:0;height:100vh;width:100%;overflow:visible;background:var(--rm_red);}
+/* The window reveal is the LAST panel of the horizontal track:it sizes like a panel (100vw x 100vh) and its stage fills it. The door/zoom reveal is driven by the horizontal pan's progress as this panel slides into view (see final.js). */
+.rm_track.rm_panel{height:100vh;}
+.rm_track.rm_panel .rm_stage{position:absolute;inset:0;height:100%;}
+/* the door + interior are the centred frame,scaled by the camera (JS) */
+.rm_content,.rm_door{position:absolute;left:50%;top:50%;width:var(--rm_fw);height:var(--rm_fh);transform:translate(-50%,-50%);transform-origin:50% 47.4%;will-change:transform;}
+.rm_content{z-index:2;}
+.rm_door{z-index:3;height:auto;}
+/* door keeps its 16:9 aspect */
+/* wall + tree + ground — FILL the viewport (Figma frame 122),recede on zoom */
+.rm_env{position:absolute;inset:0;background:var(--rm_red);z-index:2;transform-origin:50% 47.4%;will-change:transform,opacity;}
 .rm_tree{position:absolute;left:-15vw;bottom:0;width:30vw;height:auto;}
-.rm_ground { position: absolute; left: -25%; right: -25%; bottom: 0; height: var(--rm_band-h); background: var(--rm_ink); }
-
-/* interior content — a tall cream plane (so it fills the portrait window
-   opening) with the 16:9 layout centred inside it. Clipped to the window. */
-.rm_content {
-  height: 150vw;                 /* taller than the window → no red gaps */
-  background: var(--rm_cream);
-  clip-path: inset(8% 0 8% 0);   /* keep cream within the window height */
+.rm_ground{position:absolute;left:-25%;right:-25%;bottom:0;height:var(--rm_band-h);background:var(--rm_ink);}
+/* interior content — a tall cream plane (so it fills the portrait window opening) with the 16:9 layout centred inside it. Clipped to the window. */
+.rm_content{height:150vw;/* taller than the window → no red gaps */
+ background:var(--rm_cream);clip-path:inset(8% 0 8% 0);/* keep cream within the window height */
 }
-.rm_sheet {
-  position: absolute; left: 50%; top: 50%;
-  width: var(--rm_fw); height: var(--rm_fh);
-  transform: translate(-50%, -50%);
-  background: var(--rm_cream);
-}
-.rm_el { position: absolute; height: auto; opacity: var(--rm_el-op, 1); }
-.rm_el--heading { left: 30.6151%; top: 15.5815%; width: 39.0917%; }
-.rm_el--sub     { left: 37.7193%; top: 39.7287%; width: 24.6286%; }
-.rm_el--inbox   { left: 31.9182%; top: 53.1481%; width: 36.5318%; }
-
-/* heading + sub are real HTML text now (were a3-heading.svg / a3-sub.svg).
-   Sized in vw off the 1920px-wide design frame so they zoom with the camera. */
-.rm_el--heading, .rm_el--sub { margin: 0; text-align: center; font-family: var(--rm_font);
-  font-weight: 700; white-space: nowrap; }   /* break ONLY at <br>, never auto-wrap */
-.rm_el--heading { color: var(--rm_red); font-size: 5vw; line-height: 1.0; letter-spacing: -0.01em; }
-.rm_el--sub     { color: var(--rm_ink); font-size: 1.875vw; line-height: 1.15; }
-
+.rm_sheet{position:absolute;left:50%;top:50%;width:var(--rm_fw);height:var(--rm_fh);transform:translate(-50%,-50%);background:var(--rm_cream);}
+.rm_el{position:absolute;height:auto;opacity:var(--rm_el-op,1);}
+.rm_el--heading{left:30.6151%;top:15.5815%;width:39.0917%;}
+.rm_el--sub{left:37.7193%;top:39.7287%;width:24.6286%;}
+.rm_el--inbox{left:31.9182%;top:53.1481%;width:36.5318%;}
+/* heading + sub are real HTML text now (were a3-heading.svg / a3-sub.svg). Sized in vw off the 1920px-wide design frame so they zoom with the camera. */
+.rm_el--heading,.rm_el--sub{margin:0;text-align:center;font-family:var(--rm_font);font-weight:700;white-space:nowrap;}
+/* break ONLY at <br>,never auto-wrap */
+.rm_el--heading{color:var(--rm_red);font-size:5vw;line-height:1.0;letter-spacing:-0.01em;}
+.rm_el--sub{color:var(--rm_ink);font-size:1.875vw;line-height:1.15;}
 /* no-JS / reduced-motion → show the final pixel-perfect interior */
-.rm_no-js .rm_env, .rm_no-js .rm_door { display: none; }
-.rm_no-js .rm_content { clip-path: none !important; transform: translate(-50%,-50%) !important; }
-.rm_no-js .rm_stage { position: static; background: var(--rm_cream); }
-.rm_no-js .rm_track { height: auto; }
-@media (prefers-reduced-motion: reduce) { .rm_track { height: auto; } }
-
-/* ============ SECTION 2: WHO SHOULD SUBSCRIBE (was style.css; .stage->.rm_who-stage, .ground->.rm_who-ground) ============ */
-/* =================================================================
-   The Pivot Point — "Who Should Subscribe?" section
-   Pixel-faithful recreation of the Figma reference (node 604:1052)
-   ================================================================= */
-
+.rm_no-js .rm_env,.rm_no-js .rm_door{display:none;}
+.rm_no-js .rm_content{clip-path:none !important;transform:translate(-50%,-50%) !important;}
+.rm_no-js .rm_stage{position:static;background:var(--rm_cream);}
+.rm_no-js .rm_track{height:auto;}
+@media (prefers-reduced-motion:reduce){.rm_track{height:auto;}
+}
+/* ============ SECTION 2:WHO SHOULD SUBSCRIBE (was style.css;.stage->.rm_who-stage,.ground->.rm_who-ground) ============ */
+/* ================================================================= The Pivot Point — "Who Should Subscribe?" section Pixel-faithful recreation of the Figma reference (node 604:1052) ================================================================= */
 /* ----------------------------- Tokens ---------------------------- */
-.rm_root {
-  /* Brand palette */
-  --rm_color-cream:           #fffcea;
-  --rm_color-ink:             #131313;
-  --rm_color-red:             #de4b34;
-  --rm_color-red-hover:       #c83f29;
-  --rm_color-muted:           #8d8d8d;     /* intro lead start tone */
-  --rm_color-salmon:          #efa792;     /* faded heading start tone */
-
-  /* Illustration */
-  --rm_color-skyline:         #ece7cd;
-  --rm_color-tree:            #dcd6b8;
-  --rm_color-board-frame:     #f3efd7;
-  --rm_color-board-inner:     #c0bca9;
-  --rm_color-pole:            #c3c1b1;
-  --rm_color-lamp:            #c0bca9;
-
-  /* Card */
-  --rm_card-bg:               #131313;
-  --rm_field-bg:              rgba(255, 255, 255, 0.06);
-  --rm_field-border:          rgba(255, 252, 234, 0.28);
-  --rm_field-placeholder:     rgba(255, 252, 234, 0.55);
-
-  /* Typography */
-  --rm_font-sans: "Lufga", "Helvetica Neue", Arial, sans-serif;
-
-  --rm_fs-h1:        5vw;     /* 96px  */
-  --rm_fs-statement: 2.604vw;  /* 50px  */
-  --rm_fs-audience:  2.083vw;    /* 40px  */
-  --rm_fs-statement-sm: 1.25vw;/* 24px  */
-  --rm_fs-card-title:1.667vw;    /* 32px  */
-  --rm_fs-board:     1.25vw;  /* 24px  */
-  --rm_fs-field:     1rem;                            /* 16px  */
-  --rm_fs-btn:       1.0625rem;                        /* 21px (scaled) */
-
-  --rm_lh-tight: 1.04;
-  --rm_lh-snug:  1.12;
-  --rm_lh-body:  1.34;
-
-  /* Layout */
-  --rm_content-max: 100vw;
-  --rm_gutter: 8.33vw;
-  --rm_radius-card: 34px;
-  --rm_radius-field: 14px;
-  --rm_radius-btn: 15px;
-
-  --rm_ground-h: 12vh;   /* dark road strip height */
-
-  --rm_ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
+.rm_root{/* Brand palette */
+ --rm_color-cream:#fffcea;--rm_color-ink:#131313;--rm_color-red:#de4b34;--rm_color-red-hover:#c83f29;--rm_color-muted:#8d8d8d;/* intro lead start tone */
+ --rm_color-salmon:#efa792;/* faded heading start tone */
+ /* Illustration */
+ --rm_color-skyline:#ece7cd;--rm_color-tree:#dcd6b8;--rm_color-board-frame:#f3efd7;--rm_color-board-inner:#c0bca9;--rm_color-pole:#c3c1b1;--rm_color-lamp:#c0bca9;/* Card */
+ --rm_card-bg:#131313;--rm_field-bg:rgba(255,255,255,0.06);--rm_field-border:rgba(255,252,234,0.28);--rm_field-placeholder:rgba(255,252,234,0.55);/* Typography */
+ --rm_font-sans:"Lufga","Helvetica Neue",Arial,sans-serif;--rm_fs-h1:5vw;/* 96px */
+ --rm_fs-statement:2.604vw;/* 50px */
+ --rm_fs-audience:2.083vw;/* 40px */
+ --rm_fs-statement-sm:1.25vw;/* 24px */
+ --rm_fs-card-title:1.667vw;/* 32px */
+ --rm_fs-board:1.25vw;/* 24px */
+ --rm_fs-field:1rem;/* 16px */
+ --rm_fs-btn:1.0625rem;/* 21px (scaled) */
+ --rm_lh-tight:1.04;--rm_lh-snug:1.12;--rm_lh-body:1.34;/* Layout */
+ --rm_content-max:100vw;--rm_gutter:8.33vw;--rm_radius-card:34px;--rm_radius-field:14px;--rm_radius-btn:15px;--rm_ground-h:12vh;/* dark road strip height */
+ --rm_ease-out:cubic-bezier(0.22,1,0.36,1);}
 /* --------------------------- Reset / base ------------------------ */
-
-.rm_container {
-  width: 100%;
-  max-width: var(--rm_content-max);
-  margin-inline: auto;
-  padding-inline: var(--rm_gutter);
-}
-
-/* Generic reveal helper — initial state set here, animated by GSAP.
-   If JS/GSAP fails to load, .rm_is-ready is never removed → content stays visible. */
-.rm_page:not(.rm_is-ready) .rm_js-reveal { will-change: transform, opacity; }
-
+.rm_container{width:100%;max-width:var(--rm_content-max);margin-inline:auto;padding-inline:var(--rm_gutter);}
+/* Generic reveal helper — initial state set here,animated by GSAP. If JS/GSAP fails to load,.rm_is-ready is never removed → content stays visible. */
+.rm_page:not(.rm_is-ready) .rm_js-reveal{will-change:transform,opacity;}
 /* ============================== STAGE ============================= */
-/* The stage holds two absolutely-stacked layers. When JS pins it
-   (desktop, motion allowed) both layers overlap and the timeline
-   morphs between them. Without JS / on mobile, `.rm_is-pinned` is never
-   added, so the layers simply stack as two normal full-height blocks. */
-.rm_who-stage {
-  position: relative;
-  background: var(--rm_color-cream);
-}
-
-.rm_who-stage__layer {
-  min-height: 100vh;
-}
-
-.rm_who-stage.rm_is-pinned {
-  height: 100vh;
-  overflow: hidden;
-}
-.rm_who-stage.rm_is-pinned .rm_who-stage__layer {
-  position: absolute;
-  inset: 0;
-}
-
-/* ---------- LAYER A : intro + audience ---------- */
-/* non-pinned flow: hug the content instead of forcing a 100vh layer (which
-   left a big empty gap because of the space-between below). */
-.rm_who-stage__intro {
-  display: flex;
-  min-height: auto;
-  padding-block: 11.852vh 10vh;
-}
-
-.rm_intro__inner {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 6vh;
-}
-
-.rm_intro__top {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 4.167vw;
-}
-
-.rm_intro__heading {
-  font-size: var(--rm_fs-h1);
-  font-weight: 600;
-  line-height: 0.96;            /* tight — minimal gap between the two lines */
-  letter-spacing: -0.01em;
-  color: var(--rm_color-red);
-}
-.rm_intro__heading .rm_line-mask + .rm_line-mask { margin-top: -0.02em; }
-
-.rm_intro__statement {
-  align-self: center;
-}
-
+/* The stage holds two absolutely-stacked layers. When JS pins it (desktop,motion allowed) both layers overlap and the timeline morphs between them. Without JS / on mobile,`.rm_is-pinned` is never added,so the layers simply stack as two normal full-height blocks. */
+.rm_who-stage{position:relative;background:var(--rm_color-cream);}
+.rm_who-stage__layer{min-height:100vh;}
+.rm_who-stage.rm_is-pinned{height:100vh;overflow:hidden;}
+.rm_who-stage.rm_is-pinned .rm_who-stage__layer{position:absolute;inset:0;}
+/* ---------- LAYER A:intro + audience ---------- */
+/* non-pinned flow:hug the content instead of forcing a 100vh layer (which left a big empty gap because of the space-between below). */
+.rm_who-stage__intro{display:flex;min-height:auto;padding-block:11.852vh 10vh;}
+.rm_intro__inner{flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:6vh;}
+.rm_intro__top{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4.167vw;}
+.rm_intro__heading{font-size:var(--rm_fs-h1);font-weight:600;line-height:0.96;/* tight — minimal gap between the two lines */
+ letter-spacing:-0.01em;color:var(--rm_color-red);}
+.rm_intro__heading .rm_line-mask + .rm_line-mask{margin-top:-0.02em;}
+.rm_intro__statement{align-self:center;}
 /* ---- Audience columns (Leaders / Teams / Agencies) ---- */
-.rm_audience {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));  /* always fits, never overflows */
-  gap: 3.333vw;
-}
-.rm_audience__col { max-width: 21.875vw; }   /* keep text blocks design-width on wide screens */
-
-.rm_audience__title {
-  font-size: var(--rm_fs-audience);   /* 40px */
-  font-weight: 600;
-  line-height: 1.1;
-  color: var(--rm_color-red);
-  margin: 0 0 0.55em;
-}
-
-.rm_audience__desc {
-  font-size: var(--rm_fs-statement-sm); /* 24px */
-  font-weight: 500;
-  line-height: 1.33;
-  color: var(--rm_color-ink);
-  margin: 0;
-}
-
-.rm_statement__lead,
-.rm_statement__accent {
-  font-size: var(--rm_fs-statement);
-  font-weight: 600;
-  line-height: var(--rm_lh-snug);
-  letter-spacing: -0.01em;
-}
-.rm_statement__lead   { color: var(--rm_color-ink); }
-.rm_statement__accent { color: var(--rm_color-red); }
-
+.rm_audience{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));/* always fits,never overflows */
+ gap:3.333vw;}
+.rm_audience__col{max-width:21.875vw;}
+/* keep text blocks design-width on wide screens */
+.rm_audience__title{font-size:var(--rm_fs-audience);/* 40px */
+ font-weight:600;line-height:1.1;color:var(--rm_color-red);margin:0 0 0.55em;}
+.rm_audience__desc{font-size:var(--rm_fs-statement-sm);/* 24px */
+ font-weight:500;line-height:1.33;color:var(--rm_color-ink);margin:0;}
+.rm_statement__lead,.rm_statement__accent{font-size:var(--rm_fs-statement);font-weight:600;line-height:var(--rm_lh-snug);letter-spacing:-0.01em;}
+.rm_statement__lead{color:var(--rm_color-ink);}
+.rm_statement__accent{color:var(--rm_color-red);}
 /* Lines rise up from below (parallax reveal) — no clipping. */
-.rm_line-mask {
-  display: block;
-}
-.rm_line {
-  display: block;
-  will-change: transform;
-}
-
+.rm_line-mask{display:block;}
+.rm_line{display:block;will-change:transform;}
 /* Hint the compositor for the elements GSAP transforms */
-.rm_signup,
-.rm_billboard,
-.rm_billboard__art,
-.rm_skyline__img,
-.rm_statement__lead,
-.rm_statement__accent,
-.rm_audience__col {
-  will-change: transform, opacity;
-}
-
-/* ---------- LAYER B : CTA ---------- */
-.rm_who-stage__cta {
-  position: relative;
-  display: flex;
-  align-items: flex-end;            /* bottom-aligned, like the Figma frame */
-  /* bottom padding < ground height → the pole dips slightly onto the road */
-  padding-block: 10vh calc(var(--rm_ground-h) - 2.4vh);
-  overflow: hidden;
-}
-
+.rm_signup,.rm_billboard,.rm_billboard__art,.rm_skyline__img,.rm_statement__lead,.rm_statement__accent,.rm_audience__col{will-change:transform,opacity;}
+/* ---------- LAYER B:CTA ---------- */
+.rm_who-stage__cta{position:relative;display:flex;align-items:flex-end;/* bottom-aligned,like the Figma frame */
+ /* bottom padding < ground height → the pole dips slightly onto the road */
+ padding-block:10vh calc(var(--rm_ground-h) - 2.4vh);overflow:hidden;}
 /* Ground plane (road + skyline) — moves as one connected unit */
-.rm_cta__scene {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
+.rm_cta__scene{position:absolute;inset:0;z-index:1;pointer-events:none;}
 /* Dark ground/road strip at the very bottom */
-.rm_who-ground {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: var(--rm_ground-h);
-  background: var(--rm_color-ink);
-}
-
-.rm_cta__grid {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  align-items: stretch;
-  gap: 5vw;
-}
-
-/* Left (heading + form) sits near the TOP; billboard stays bottom-right. */
-.rm_cta__left {
-  align-self: start;
-  padding-top: 6vh;
-}
-
-.rm_cta__heading {
-  font-size: var(--rm_fs-statement);
-  font-weight: 600;
-  line-height: var(--rm_lh-snug);
-  letter-spacing: -0.01em;
-  margin-bottom: 2.083vw;
-}
-.rm_cta__heading .rm_line--accent { color: var(--rm_color-red); }
-
+.rm_who-ground{position:absolute;left:0;bottom:0;width:100%;height:var(--rm_ground-h);background:var(--rm_color-ink);}
+.rm_cta__grid{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);align-items:stretch;gap:5vw;}
+/* Left (heading + form) sits near the TOP;billboard stays bottom-right. */
+.rm_cta__left{align-self:start;padding-top:6vh;}
+.rm_cta__heading{font-size:var(--rm_fs-statement);font-weight:600;line-height:var(--rm_lh-snug);letter-spacing:-0.01em;margin-bottom:2.083vw;}
+.rm_cta__heading .rm_line--accent{color:var(--rm_color-red);}
 /* ----------------------------- Signup ---------------------------- */
-.rm_signup {
-  background: var(--rm_card-bg);
-  border-radius: var(--rm_radius-card);
-  padding: 2.083vw;
-  max-width: 33.333vw;
-  display: grid;
-  gap: 0.833vw;
-  box-shadow: 0 30px 70px -30px rgba(19, 19, 19, 0.45);
-}
-
-.rm_signup__title {
-  color: #fff;
-  font-size: var(--rm_fs-card-title);
-  font-weight: 600;
-  line-height: 1;
-  margin-bottom: 0.4rem;
-}
-
-.rm_signup__row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75vw;
-}
-
-.rm_signup__input {
-  width: 100%;
-  font-family: inherit;
-  font-size: var(--rm_fs-field);
-  font-weight: 400;
-  color: var(--rm_color-cream);
-  background: var(--rm_field-bg);
-  border: 1px solid var(--rm_field-border);
-  border-radius: var(--rm_radius-field);
-  padding: 0.95rem 1.1rem;
-  transition: border-color 0.3s var(--rm_ease-out),
-              background-color 0.3s var(--rm_ease-out),
-              box-shadow 0.3s var(--rm_ease-out);
-}
-.rm_signup__input::placeholder { color: var(--rm_field-placeholder); }
-.rm_signup__input:hover { border-color: rgba(255, 252, 234, 0.45); }
-.rm_signup__input:focus {
-  outline: none;
-  border-color: var(--rm_color-red);
-  background: rgba(255, 255, 255, 0.09);
-  box-shadow: 0 0 0 3px rgba(222, 75, 52, 0.25);
-}
-
-.rm_signup__btn {
-  width: 100%;
-  font-family: inherit;
-  font-size: var(--rm_fs-btn);
-  font-weight: 700;
-  color: var(--rm_color-cream);
-  background: var(--rm_color-red);
-  border: none;
-  border-radius: var(--rm_radius-btn);
-  padding: 1.05rem 1.25rem;
-  margin-top: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.3s var(--rm_ease-out),
-              transform 0.25s var(--rm_ease-out),
-              box-shadow 0.3s var(--rm_ease-out);
-}
-.rm_signup__btn:hover {
-  background: var(--rm_color-red-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px -12px rgba(222, 75, 52, 0.7);
-}
-.rm_signup__btn:active { transform: translateY(0); }
-
+.rm_signup{background:var(--rm_card-bg);border-radius:var(--rm_radius-card);padding:2.083vw;max-width:33.333vw;display:grid;gap:0.833vw;box-shadow:0 30px 70px -30px rgba(19,19,19,0.45);}
+.rm_signup__title{color:#fff;font-size:var(--rm_fs-card-title);font-weight:600;line-height:1;margin-bottom:0.4rem;}
+.rm_signup__row{display:grid;grid-template-columns:1fr 1fr;gap:0.75vw;}
+.rm_signup__input{width:100%;font-family:inherit;font-size:var(--rm_fs-field);font-weight:400;color:var(--rm_color-cream);background:var(--rm_field-bg);border:1px solid var(--rm_field-border);border-radius:var(--rm_radius-field);padding:0.95rem 1.1rem;transition:border-color 0.3s var(--rm_ease-out),background-color 0.3s var(--rm_ease-out),box-shadow 0.3s var(--rm_ease-out);}
+.rm_signup__input::placeholder{color:var(--rm_field-placeholder);}
+.rm_signup__input:hover{border-color:rgba(255,252,234,0.45);}
+.rm_signup__input:focus{outline:none;border-color:var(--rm_color-red);background:rgba(255,255,255,0.09);box-shadow:0 0 0 3px rgba(222,75,52,0.25);}
+.rm_signup__btn{width:100%;font-family:inherit;font-size:var(--rm_fs-btn);font-weight:700;color:var(--rm_color-cream);background:var(--rm_color-red);border:none;border-radius:var(--rm_radius-btn);padding:1.05rem 1.25rem;margin-top:0.25rem;cursor:pointer;transition:background-color 0.3s var(--rm_ease-out),transform 0.25s var(--rm_ease-out),box-shadow 0.3s var(--rm_ease-out);}
+.rm_signup__btn:hover{background:var(--rm_color-red-hover);transform:translateY(-2px);box-shadow:0 14px 28px -12px rgba(222,75,52,0.7);}
+.rm_signup__btn:active{transform:translateY(0);}
 /* ---------------------------- Billboard -------------------------- */
-/* Built around the exact Figma billboard group (606 x 740):
-   - billboard graphic (Billboard2 node) sits at x 108, full height
-   - street lamp (node 432:350) at the lower-left
-   - live copy is overlaid on the red board (node text 432:381/382) */
-.rm_cta__right {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.rm_billboard {
-  position: relative;
-  height: 70.37vh;   /* tall enough for the pole to reach the ground */
-  aspect-ratio: 606 / 740;
-  container-type: inline-size;
-  transform-origin: bottom center;
-}
-
+/* Built around the exact Figma billboard group (606 x 740):- billboard graphic (Billboard2 node) sits at x 108,full height - street lamp (node 432:350) at the lower-left - live copy is overlaid on the red board (node text 432:381/382) */
+.rm_cta__right{display:flex;justify-content:center;align-items:flex-end;}
+.rm_billboard{position:relative;height:70.37vh;/* tall enough for the pole to reach the ground */
+ aspect-ratio:606 / 740;container-type:inline-size;transform-origin:bottom center;}
 /* Billboard board + lamps + pole (exact Figma SVG) */
-.rm_billboard__art {
-  position: absolute;
-  top: 0;
-  left: 17.82%;       /* 108 / 606 */
-  width: 82.18%;      /* 498 / 606 */
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 24px 40px rgba(19, 19, 19, 0.22));
-}
-
+.rm_billboard__art{position:absolute;top:0;left:17.82%;/* 108 / 606 */
+ width:82.18%;/* 498 / 606 */
+ height:auto;display:block;filter:drop-shadow(0 24px 40px rgba(19,19,19,0.22));}
 /* Street lamp at the base (exact Figma SVG) */
-.rm_billboard__lamp {
-  position: absolute;
-  left: 0;
-  top: 81.2%;         /* 601 / 740 */
-  width: 12.87%;      /* 78 / 606  */
-  height: auto;
-  display: block;
-}
-
+.rm_billboard__lamp{position:absolute;left:0;top:81.2%;/* 601 / 740 */
+ width:12.87%;/* 78 / 606 */
+ height:auto;display:block;}
 /* Live copy overlaid on the red board */
-.rm_billboard__copy {
-  position: absolute;
-  top: 11.9%;         /* 88 / 740  */
-  left: 24.4%;        /* 148 / 606 */
-  width: 68.5%;       /* 415 / 606 */
-  display: flex;
-  flex-direction: column;
-  gap: 0.85em;
-}
-
-.rm_billboard__text {
-  color: var(--rm_color-cream);
-  font-weight: 600;
-  font-size: 3.96cqw;     /* 24 / 606 of the billboard width */
-  line-height: 1.33;
-  margin: 0;
-}
-
+.rm_billboard__copy{position:absolute;top:11.9%;/* 88 / 740 */
+ left:24.4%;/* 148 / 606 */
+ width:68.5%;/* 415 / 606 */
+ display:flex;flex-direction:column;gap:0.85em;}
+.rm_billboard__text{color:var(--rm_color-cream);font-weight:600;font-size:3.96cqw;/* 24 / 606 of the billboard width */
+ line-height:1.33;margin:0;}
 /* ---------------------------- Skyline ---------------------------- */
-/* Exact Figma skyline vector (5271 x 304, #131313 @ 10% opacity).
-   Scaled so one design unit matches a 1920-wide artboard and pinned
-   to the bottom-left, overflowing right (clipped). */
-.rm_skyline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: calc(var(--rm_ground-h) - 1.8vh); /* dips slightly onto the road — no cream gap */
-  width: 100%;
-  z-index: 1;
-  overflow: hidden;
-  pointer-events: none;
-  line-height: 0;
-}
-.rm_skyline__img {
-  display: block;
-  width: 274.5vw;     /* 5271 / 1920 */
-  height: auto;
-}
-
+/* Exact Figma skyline vector (5271 x 304,#131313 @ 10% opacity). Scaled so one design unit matches a 1920-wide artboard and pinned to the bottom-left,overflowing right (clipped). */
+.rm_skyline{position:absolute;left:0;right:0;bottom:calc(var(--rm_ground-h) - 1.8vh);/* dips slightly onto the road — no cream gap */
+ width:100%;z-index:1;overflow:hidden;pointer-events:none;line-height:0;}
+.rm_skyline__img{display:block;width:274.5vw;/* 5271 / 1920 */
+ height:auto;}
 /* ============================ Responsive ============================ */
-
-/* Above 1920 — KEEP the whole design scaling with the viewport so the 1920
-   ratio is preserved on any larger screen. The layout is already vw/%-based,
-   so the only thing that would otherwise break ratio is the clamp() MAX caps
-   on type + widths (they all top out around 1920, freezing while the full-
-   width panels keep growing). Here every capped token is set to its clamp vw
-   term (uncapped), so 100vw === the 1920 artboard at every size. Pure CSS —
-   no transforms — so the GSAP pin/scroll math is unaffected. */
-@media (min-width: 1921px) {
-  /* .rm_root.rm_root → higher specificity than the plain .rm_root token blocks
-     that appear LATER in this file, so these uncapped values reliably win. */
-  .rm_root.rm_root {
-    /* screen-3 horizontal-scroll type scale */
-    --rm_fs-h1:    5vw;
-    --rm_fs-h2:    2.6vw;
-    --rm_fs-body:  1.667vw;
-    --rm_fs-li:    1.25vw;
-    --rm_fs-small: 0.73vw;
-
-    /* "Who Should Subscribe?" section type scale */
-    --rm_fs-statement:    2.7vw;
-    --rm_fs-audience:     2.1vw;
-    --rm_fs-statement-sm: 1.3vw;
-    --rm_fs-card-title:   1.9vw;
-    --rm_fs-board:        1.45vw;
-    --rm_fs-field:        0.833vw;
-    --rm_fs-btn:          0.886vw;
-
-    /* let the composition fill the width instead of capping at 1760px */
-    --rm_content-max: 100vw;
-    --rm_gutter:      8.33vw;
-
-    /* corner radii scale too (= their 1920 px ÷ 19.2) */
-    --rm_radius-card:  1.771vw;   /* 34px */
-    --rm_radius-field: 0.729vw;   /* 14px */
-    --rm_radius-btn:   0.781vw;   /* 15px */
-  }
-
-  /* Fixed-px layout dimensions → vw (value ÷ 19.2 of the 1920 design px), so
-     EVERY box scales with width and the page is an exact 1920 enlargement.
-     Prefixed with .rm_root to outrank the later base rules. */
-
-  /* — screen-3 panels — */
-  .rm_root .rm_help-left{ max-width:40.625vw; }                 /* 780 */
-  .rm_root .rm_help-bullets{ margin-top:2.4vw; }
-  .rm_root .rm_help-card{ flex-basis:20.833vw; padding:2.1vw; gap:0.833vw; border-radius:1.771vw; }  /* 400 / 16 / 34 */
-  .rm_root .rm_help-card .rm_row{ gap:0.833vw; }
-  .rm_root .rm_help-card input{ padding:0.833vw 0.9375vw; border-radius:0.729vw; font-size:0.833vw; }  /* 16 18 / 14 / 16 */
-  .rm_root .rm_help-card .rm_send{ padding:0.833vw; margin-top:0.208vw; border-radius:0.781vw; font-size:0.9375vw; }  /* 16 / 4 / 15 / 18 */
-  .rm_root .rm_is-cols{ gap:6vw; }
-  .rm_root .rm_is-col .rm_txt{ margin-bottom:2.083vw; }         /* 40 */
-  .rm_root .rm_is-cols .rm_is-col:nth-child(1) .rm_txt{ max-width:19.375vw; }  /* 372 */
-  .rm_root .rm_is-cols .rm_is-col:nth-child(2) .rm_txt{ max-width:20.989vw; }  /* 403 */
-  .rm_root .rm_is-cols .rm_is-col:nth-child(3) .rm_txt{ max-width:18.229vw; }  /* 350 */
-  .rm_root .rm_finale__window{ width:15vw; }
-
-  /* — "Who Should Subscribe?" section — */
-  .rm_root .rm_intro__top{ gap:5vw; }
-  .rm_root .rm_audience{ gap:4vw; }
-  .rm_root .rm_audience__col{ max-width:21.875vw; }             /* 420 */
-  .rm_root .rm_cta__grid{ gap:5vw; }
-  .rm_root .rm_signup{ max-width:33.333vw; padding:2.3vw; gap:1vw; }  /* 640 */
-  .rm_root .rm_signup__row{ gap:0.9vw; }
-  .rm_root .rm_signup__input{ padding:0.792vw 0.917vw; }        /* 0.95rem 1.1rem */
-  .rm_root .rm_signup__btn{ padding:0.875vw 1.042vw; }          /* 1.05rem 1.25rem */
-  .rm_root .rm_billboard{ height:39.583vw; }                    /* 760 — was vh-capped */
+/* Above 1920 — KEEP the whole design scaling with the viewport so the 1920 ratio is preserved on any larger screen. The layout is already vw/%-based,so the only thing that would otherwise break ratio is the clamp() MAX caps on type + widths (they all top out around 1920,freezing while the full- width panels keep growing). Here every capped token is set to its clamp vw term (uncapped),so 100vw === the 1920 artboard at every size. Pure CSS — no transforms — so the GSAP pin/scroll math is unaffected. */
+@media (min-width:1921px){/* .rm_root.rm_root → higher specificity than the plain .rm_root token blocks that appear LATER in this file,so these uncapped values reliably win. */
+ .rm_root.rm_root{/* screen-3 horizontal-scroll type scale */
+ --rm_fs-h1:5vw;--rm_fs-h2:2.6vw;--rm_fs-body:1.667vw;--rm_fs-li:1.25vw;--rm_fs-small:0.73vw;/* "Who Should Subscribe?" section type scale */
+ --rm_fs-statement:2.7vw;--rm_fs-audience:2.1vw;--rm_fs-statement-sm:1.3vw;--rm_fs-card-title:1.9vw;--rm_fs-board:1.45vw;--rm_fs-field:0.833vw;--rm_fs-btn:0.886vw;/* let the composition fill the width instead of capping at 1760px */
+ --rm_content-max:100vw;--rm_gutter:8.33vw;/* corner radii scale too (= their 1920 px ÷ 19.2) */
+ --rm_radius-card:1.771vw;/* 34px */
+ --rm_radius-field:0.729vw;/* 14px */
+ --rm_radius-btn:0.781vw;/* 15px */
 }
-
-/* Pinned range but narrower (small laptops / iPad landscape) — pull the
-   gutter in so the 2- and 3-column layouts keep breathing room. */
-@media (min-width: 981px) and (max-width: 1280px) {
-  .rm_root { --rm_gutter: 4.167vw; }
-  .rm_who-stage__intro { padding-block: 8.889vh 10.37vh; }
+/* Fixed-px layout dimensions → vw (value ÷ 19.2 of the 1920 design px),so EVERY box scales with width and the page is an exact 1920 enlargement. Prefixed with .rm_root to outrank the later base rules. */
+ /* — screen-3 panels — */
+ .rm_root .rm_help-left{max-width:40.625vw;}
+/* 780 */
+ .rm_root .rm_help-bullets{margin-top:2.4vw;}
+.rm_root .rm_help-card{flex-basis:20.833vw;padding:2.1vw;gap:0.833vw;border-radius:1.771vw;}
+/* 400 / 16 / 34 */
+ .rm_root .rm_help-card .rm_row{gap:0.833vw;}
+.rm_root .rm_help-card input{padding:0.833vw 0.9375vw;border-radius:0.729vw;font-size:0.833vw;}
+/* 16 18 / 14 / 16 */
+ .rm_root .rm_help-card .rm_send{padding:0.833vw;margin-top:0.208vw;border-radius:0.781vw;font-size:0.9375vw;}
+/* 16 / 4 / 15 / 18 */
+ .rm_root .rm_is-cols{gap:6vw;}
+.rm_root .rm_is-col .rm_txt{margin-bottom:2.083vw;}
+/* 40 */
+ .rm_root .rm_is-cols .rm_is-col:nth-child(1) .rm_txt{max-width:19.375vw;}
+/* 372 */
+ .rm_root .rm_is-cols .rm_is-col:nth-child(2) .rm_txt{max-width:20.989vw;}
+/* 403 */
+ .rm_root .rm_is-cols .rm_is-col:nth-child(3) .rm_txt{max-width:18.229vw;}
+/* 350 */
+ .rm_root .rm_finale__window{width:15vw;}
+/* — "Who Should Subscribe?" section — */
+ .rm_root .rm_intro__top{gap:5vw;}
+.rm_root .rm_audience{gap:4vw;}
+.rm_root .rm_audience__col{max-width:21.875vw;}
+/* 420 */
+ .rm_root .rm_cta__grid{gap:5vw;}
+.rm_root .rm_signup{max-width:33.333vw;padding:2.3vw;gap:1vw;}
+/* 640 */
+ .rm_root .rm_signup__row{gap:0.9vw;}
+.rm_root .rm_signup__input{padding:0.792vw 0.917vw;}
+/* 0.95rem 1.1rem */
+ .rm_root .rm_signup__btn{padding:0.875vw 1.042vw;}
+/* 1.05rem 1.25rem */
+ .rm_root .rm_billboard{height:39.583vw;}
+/* 760 — was vh-capped */
 }
-
-/* Short, wide screens (e.g. 1366×768 laptops) in the pinned experience —
-   trim vertical padding so the intro + columns fit within 100vh. */
-@media (min-width: 981px) and (max-height: 800px) {
-  .rm_who-stage__intro { padding-block: 7.407vh 7.407vh; }
-  .rm_intro__inner { gap: 5.926vh; }
+/* Pinned range but narrower (small laptops / iPad landscape) — pull the gutter in so the 2- and 3-column layouts keep breathing room. */
+@media (min-width:981px) and (max-width:1280px){.rm_root{--rm_gutter:4.167vw;}
+.rm_who-stage__intro{padding-block:8.889vh 10.37vh;}
 }
-
-/* ---- Tablet & below: no pin, content stacks and scrolls naturally ---- */
-@media (max-width: 980px) {
-  .rm_who-stage__layer { min-height: 0; }
-
-  .rm_who-stage__intro { padding-block: 10.37vh 5.926vh; }
-  .rm_intro__inner { gap: 5.926vh; }
-  .rm_intro__top {
-    grid-template-columns: 1fr;
-    align-items: start;
-    gap: 1.5rem;
-  }
-  .rm_intro__statement { align-self: start; }
-
-  .rm_audience {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2.083vw;
-  }
-  .rm_audience__col { max-width: none; }
-
-  .rm_who-stage__cta { align-items: stretch; padding-block: 8.889vh 4rem; }
-  .rm_cta__grid { grid-template-columns: 1fr; gap: 100px; align-items: start; }
-  .rm_cta__left { padding-top: 0; padding-bottom: 0; }
-  .rm_cta__right { justify-content: flex-start; }
-  .rm_billboard { height: auto; width: min(100%, 460px); }
+/* Short,wide screens (e.g. 1366×768 laptops) in the pinned experience — trim vertical padding so the intro + columns fit within 100vh. */
+@media (min-width:981px) and (max-height:800px){.rm_who-stage__intro{padding-block:7.407vh 7.407vh;}
+.rm_intro__inner{gap:5.926vh;}
 }
-
-/* ---- Portrait tablets: audience back to a single readable column ---- */
-@media (max-width: 760px) {
-  .rm_audience {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+/* ---- Tablet & below:no pin,content stacks and scrolls naturally ---- */
+@media (max-width:980px){.rm_who-stage__layer{min-height:0;}
+.rm_who-stage__intro{padding-block:10.37vh 5.926vh;}
+.rm_intro__inner{gap:5.926vh;}
+.rm_intro__top{grid-template-columns:1fr;align-items:start;gap:1.5rem;}
+.rm_intro__statement{align-self:start;}
+.rm_audience{grid-template-columns:repeat(3,minmax(0,1fr));gap:2.083vw;}
+.rm_audience__col{max-width:none;}
+.rm_who-stage__cta{align-items:stretch;padding-block:8.889vh 4rem;}
+.rm_cta__grid{grid-template-columns:1fr;gap:100px;align-items:start;}
+.rm_cta__left{padding-top:0;padding-bottom:0;}
+.rm_cta__right{justify-content:flex-start;}
+.rm_billboard{height:auto;width:min(100%,460px);}
 }
-
+/* ---- Portrait tablets:audience back to a single readable column ---- */
+@media (max-width:760px){.rm_audience{grid-template-columns:1fr;gap:2rem;}
+}
 /* ---- Mobile ---- */
-@media (max-width: 560px) {
-  .rm_root {
-    --rm_gutter: 1.25rem;
-    --rm_ground-h: 8.333vh;
-  }
-
-  .rm_signup { padding: 1.5rem 1.25rem; border-radius: 24px; }
-  .rm_signup__row { grid-template-columns: 1fr; }
-
-  .rm_billboard { width: 100%; max-width: 380px; }
+@media (max-width:560px){.rm_root{--rm_gutter:1.25rem;--rm_ground-h:8.333vh;}
+.rm_signup{padding:1.5rem 1.25rem;border-radius:24px;}
+.rm_signup__row{grid-template-columns:1fr;}
+.rm_billboard{width:100%;max-width:380px; margin-bottom: -30px;
+      height: auto !important;}
 }
-
 /* ---- Small phones ---- */
-@media (max-width: 380px) {
-  .rm_intro__heading { font-size: 2.5vw; }
-  .rm_signup { padding: 1.25rem 1rem; }
+@media (max-width:380px){.rm_intro__heading{font-size:2.5vw;}
+.rm_signup{padding:1.25rem 1rem;}
 }
-
 /* Reduced motion — neutralise transitions/animations */
-@media (prefers-reduced-motion: reduce) {
-  .rm_root { scroll-behavior: auto; }
-  .rm_root * {
-    animation-duration: 0.001ms !important;
-    transition-duration: 0.001ms !important;
-  }
+@media (prefers-reduced-motion:reduce){.rm_root{scroll-behavior:auto;}
+.rm_root *{animation-duration:0.001ms !important;transition-duration:0.001ms !important;}
 }
-
-/* --- merge safeguard: the Who-Subscribe section + its layers always paint
-   their cream background, so the page's red wall can never show through --- */
-#rm_who-page{margin-top: 20vh;}
-#rm_who-page, .rm_who-stage, .rm_who-stage__layer { background: var(--rm_color-cream); }
-
+/* --- merge safeguard:the Who-Subscribe section + its layers always paint their cream background,so the page's red wall can never show through --- */
+#rm_who-page{margin-top:20vh;}
+#rm_who-page,.rm_who-stage,.rm_who-stage__layer{background:var(--rm_color-cream);}
 /* ===================== SCREEN 3 STYLES (screen3.css) ===================== */
-/* ============================================================
-   SCREEN 3 — THE PIVOT POINT   (Figma node 1165:20 → Group 143690)
-   ------------------------------------------------------------
-   The storyboard rebuilt as a real GSAP HORIZONTAL SMOOTH SCROLL.
-   Every scene is hand-built HTML/CSS + inline SVG (no frame images).
-   Panels map to Figma frame ids: 95 → 105/97 → 114 → 111 → (approach)
-   → 119/120.  A faint far skyline + solid trees + dark near skyline run
-   beneath the cream panels; the track ends at the coral building finale.
-
-   Desktop : flex-row track, pinned, pans sideways (scrub-smoothed),
-             content fades IN and OUT as it crosses the viewport.
-   Mobile / reduced-motion : panels stack vertically (normal scroll).
-   Fluid sizing: artboard 1920px === 100vw.
-   ============================================================ */
-.rm_root{
-  --rm_cream:  #FFFCEA;
-  --rm_ink:    #131313;
-  --rm_coral:  #DE4B34;
-  --rm_sub-ink:#000000;
-  --rm_font:'Lufga', system-ui, -apple-system, sans-serif;
-
-  --rm_fs-h1:   5vw;
-  --rm_fs-h2:   2.6vw;
-  --rm_fs-body: 1.667vw;
-  --rm_fs-li:   1.25vw;
-  --rm_fs-small:0.73vw;
-
-  /* vertical sizing in vh to match the 1080-tall design proportions */
-  --rm_band-h: 12vh;
-  --rm_sky-h:  34.6vh;
-}
-
-
+/* ============================================================ SCREEN 3 — THE PIVOT POINT (Figma node 1165:20 → Group 143690) ------------------------------------------------------------ The storyboard rebuilt as a real GSAP HORIZONTAL SMOOTH SCROLL. Every scene is hand-built HTML/CSS + inline SVG (no frame images). Panels map to Figma frame ids:95 → 105/97 → 114 → 111 → (approach) → 119/120. A faint far skyline + solid trees + dark near skyline run beneath the cream panels;the track ends at the coral building finale. Desktop:flex-row track,pinned,pans sideways (scrub-smoothed),content fades IN and OUT as it crosses the viewport. Mobile / reduced-motion:panels stack vertically (normal scroll). Fluid sizing:artboard 1920px === 100vw. ============================================================ */
+.rm_root{--rm_cream:#FFFCEA;--rm_ink:#131313;--rm_coral:#DE4B34;--rm_sub-ink:#000000;--rm_font:'Lufga',system-ui,-apple-system,sans-serif;--rm_fs-h1:5vw;--rm_fs-h2:2.6vw;--rm_fs-body:1.667vw;--rm_fs-li:1.25vw;--rm_fs-small:0.73vw;/* vertical sizing in vh to match the 1080-tall design proportions */
+ --rm_band-h:12vh;--rm_sky-h:34.6vh;}
 /* ---------- pinned horizontal viewport ---------- */
-.rm_hscroll{ position:relative; height:100vh; width:100%; overflow:hidden; background:var(--rm_cream); }
-.rm_htrack{ display:flex; width:max-content; height:100vh; position:relative; will-change:transform; }
-
+.rm_hscroll{position:relative;height:100vh;width:100%;overflow:hidden;background:var(--rm_cream);}
+.rm_htrack{display:flex;width:max-content;height:100vh;position:relative;will-change:transform;}
 /* continuous bottom layers (sit beneath the cream panels) */
-.rm_track-band{ position:absolute; left:0; bottom:0; width:100%; height:var(--rm_band-h);
-  background:var(--rm_ink); z-index:6; }
-/* faint buildings (10% in the SVG) with solid trees baked in at the design
-   positions, so trees always pan locked to the skyline */
-/* width:max-content exposes the full tiled width so the parallax drift never
-   reveals a gap; will-change:transform keeps the slow drift smooth */
-/* z-index:-1 keeps the parallax skyline a true backdrop: it shows through the
-   transparent early panels but is covered by any panel that has its own
-   background (the coral finale), so the drift never bleeds into that scene */
-.rm_track-skyline{ position:absolute; left:0; bottom:calc(var(--rm_band-h) - 2px); width:max-content; height:var(--rm_sky-h);
-  z-index:-1; display:flex; overflow:visible; pointer-events:none; will-change:transform; }
-.rm_track-skyline svg{ height:100%; width:auto; flex:0 0 auto; }
-
+.rm_track-band{position:absolute;left:0;bottom:0;width:100%;height:var(--rm_band-h);background:var(--rm_ink);z-index:6;}
+/* faint buildings (10% in the SVG) with solid trees baked in at the design positions,so trees always pan locked to the skyline */
+/* width:max-content exposes the full tiled width so the parallax drift never reveals a gap;will-change:transform keeps the slow drift smooth */
+/* z-index:-1 keeps the parallax skyline a true backdrop:it shows through the transparent early panels but is covered by any panel that has its own background (the coral finale),so the drift never bleeds into that scene */
+.rm_track-skyline{position:absolute;left:0;bottom:calc(var(--rm_band-h) - 2px);width:max-content;height:var(--rm_sky-h);z-index:-1;display:flex;overflow:visible;pointer-events:none;will-change:transform;}
+.rm_track-skyline svg{height:100%;width:auto;flex:0 0 auto;}
 /* ---------- panels ---------- */
 /* sections are managed in vw — each panel is one viewport wide */
-.rm_panel{ flex:0 0 100vw; width:100vw; height:100vh; position:relative; }
-.rm_panel__inner{ position:absolute; left:0; width:100%; z-index:5; padding:0 7vw; }
-.rm_rv{ will-change:opacity; opacity: 1 !important;}
-
+.rm_panel{flex:0 0 100vw;width:100vw;height:100vh;position:relative;}
+.rm_panel__inner{position:absolute;left:0;width:100%;z-index:5;padding:0 7vw;}
+.rm_rv{will-change:opacity;opacity:1 !important;}
 /* 1 — Welcome to The Pivot Point (95) */
-.rm_panel--intro .rm_panel__inner{ top:16%; text-align:center; }
-.rm_tp-title{ font-weight:600; font-size:var(--rm_fs-h1); color:var(--rm_coral);
-  line-height:1.042; letter-spacing:0; }                      /* 96px · LH 100 */
-.rm_tp-sub{ font-weight:500; font-size:var(--rm_fs-body); color:var(--rm_sub-ink);
-  line-height:1.305; letter-spacing:0; margin-top:2.78vh; }   /* 32px · LH 41.77 */
-
+.rm_panel--intro .rm_panel__inner{top:16%;text-align:center;}
+.rm_tp-title{font-weight:600;font-size:var(--rm_fs-h1);color:var(--rm_coral);line-height:1.042;letter-spacing:0;}
+/* 96px · LH 100 */
+.rm_tp-sub{font-weight:500;font-size:var(--rm_fs-body);color:var(--rm_sub-ink);line-height:1.305;letter-spacing:0;margin-top:2.78vh;}
+/* 32px · LH 41.77 */
 /* 2 — It's not here to overwhelm you … + bullets + signup card (105/97) */
-.rm_panel--help .rm_panel__inner{ top:20%; display:flex; gap:5vw; align-items:flex-start; justify-content:space-between; }
-.rm_help-left{ flex:1 1 52%; max-width:40.625vw; }
-.rm_help-head{ font-weight:600; font-size:var(--rm_fs-h2); line-height:1.12; letter-spacing:0; color:var(--rm_ink); }  /* 50px · LH 56 */
-.rm_help-head .rm_accent{ color:var(--rm_coral); }
-.rm_help-bullets{ list-style:none; margin-top:2.396vw; }
-.rm_help-bullets li{ font-size:var(--rm_fs-li); font-weight:500; color:var(--rm_sub-ink); line-height:1.333;
-  letter-spacing:0; padding-left:1.4em; position:relative; margin:.5em 0; }   /* 24px · LH 32 */
-/* centre the dot on the first text line: line-box centre = line-height/2
-   (1.333em/2 ≈ .667em), then pull the dot back by half its own height */
-.rm_help-bullets li::before{ content:""; position:absolute; left:0; top:.667em; transform:translateY(-50%);
-  width:.5em; height:.5em; border-radius:50%; background:var(--rm_coral); }
+.rm_panel--help .rm_panel__inner{top:20%;display:flex;gap:5vw;align-items:flex-start;justify-content:space-between;}
+.rm_help-left{flex:1 1 52%;max-width:40.625vw;}
+.rm_help-head{font-weight:600;font-size:var(--rm_fs-h2);line-height:1.12;letter-spacing:0;color:var(--rm_ink);}
+/* 50px · LH 56 */
+.rm_help-head .rm_accent{color:var(--rm_coral);}
+.rm_help-bullets{list-style:none;margin-top:2.396vw;}
+.rm_help-bullets li{font-size:var(--rm_fs-li);font-weight:500;color:var(--rm_sub-ink);line-height:1.333;letter-spacing:0;padding-left:1.4em;position:relative;margin:.5em 0;}
+/* 24px · LH 32 */
+/* centre the dot on the first text line:line-box centre = line-height/2 (1.333em/2 ≈ .667em),then pull the dot back by half its own height */
+.rm_help-bullets li::before{content:"";position:absolute;left:0;top:.667em;transform:translateY(-50%);width:.5em;height:.5em;border-radius:50%;background:var(--rm_coral);}
 /* dark card · translucent cream inputs · coral SEND (matches frame 97) */
-.rm_help-card{ flex:0 0 400px; max-width:38vw; background:var(--rm_ink); border-radius:34px;
-  padding:1.979vw; display:flex; flex-direction:column; gap:16px; }
-.rm_help-card .rm_row{ display:flex; gap:16px; }
-.rm_help-card input{ flex:1 1 0; min-width:0; background:rgba(255,252,234,.10); border:none;
-  border-radius:14px; padding:16px 18px; color:#fff; font-family:var(--rm_font); font-size:16px; }
-.rm_help-card input::placeholder{ color:rgba(255,252,234,.55); }
-.rm_help-card .rm_send{ width:100%; margin-top:4px; background:var(--rm_coral); color:var(--rm_cream); border:none;
-  border-radius:15px; padding:16px; font-family:var(--rm_font); font-weight:700; font-size:18px;
-  letter-spacing:.06em; cursor:pointer; }
-
+.rm_help-card{flex:0 0 400px;max-width:38vw;background:var(--rm_ink);border-radius:34px;padding:1.979vw;display:flex;flex-direction:column;gap:16px;}
+.rm_help-card .rm_row{display:flex;gap:16px;}
+.rm_help-card input{flex:1 1 0;min-width:0;background:rgba(255,252,234,.10);border:none;border-radius:14px;padding:16px 18px;color:#fff;font-family:var(--rm_font);font-size:16px;}
+.rm_help-card input::placeholder{color:rgba(255,252,234,.55);}
+.rm_help-card .rm_send{width:100%;margin-top:4px;background:var(--rm_coral);color:var(--rm_cream);border:none;border-radius:15px;padding:16px;font-family:var(--rm_font);font-weight:700;font-size:18px;letter-spacing:.06em;cursor:pointer;}
 /* 3 — Why This Newsletter Matters (114) — title + description left-aligned */
-.rm_panel--matters .rm_panel__inner{ top:18%; text-align:left; }
-.rm_matters-title{ font-weight:600; font-size:var(--rm_fs-h1); color:var(--rm_coral);
-  line-height:1.042; letter-spacing:0; }
-.rm_matters-sub{ font-weight:500; font-size:var(--rm_fs-body); color:var(--rm_sub-ink);
-  line-height:1.305; letter-spacing:0; margin-top:2.78vh; }
-
-/* 4 — This newsletter is: + three columns, each on a billboard (111/127/151)
-   Vertical footprint matches the design (1080-based): heading top ≈14.8vh,
-   column text ≈28vh, billboard 42.2vh tall with its base on the band. */
-.rm_panel--is .rm_panel__inner{ inset:0; height:100%; display:flex; flex-direction:column;
-  padding:14.8vh 6vw var(--rm_band-h); }
-.rm_is-head{ font-weight:600; font-size:var(--rm_fs-h2); color:var(--rm_coral); line-height:1.12; letter-spacing:0;
-  margin-bottom:2vw; }
-.rm_is-cols{ flex:1; display:flex; gap:6vw; align-items:stretch; min-height:0; }
-.rm_is-col{ flex:1 1 0; display:flex; flex-direction:column; align-items:flex-start; }
-/* per-column description widths (from design), left-aligned */
-.rm_is-col .rm_txt{ font-size:var(--rm_fs-li); font-weight:500; color:var(--rm_sub-ink); line-height:1.333;
-  letter-spacing:0; margin-bottom: 3.704vh;}
-.rm_is-cols .rm_is-col:nth-child(1) .rm_txt{ max-width:19.375vw; }
-.rm_is-cols .rm_is-col:nth-child(2) .rm_txt{ max-width:20.99vw; }
-.rm_is-cols .rm_is-col:nth-child(3) .rm_txt{ max-width:18.229vw; }
-/* billboard left-aligns with its description (left edges match the design),
-   width 318/1920 = 16.56vw; margin-top:auto keeps its base on the band */
-.rm_is-col .rm_board{ margin-top:auto; align-self:flex-start; }
-.rm_is-col .rm_board svg{ width:16.56vw; height:auto; display:block; }
-
-/* 5 — approach: dark foreground skyline + tree leading to the building (131/100/117) */
-.rm_panel--approach{ overflow:hidden; }
-.rm_approach-sky{ position:absolute; left:50%; transform:translateX(-50%); bottom:calc(var(--rm_band-h) - 2px);
-  height:calc(var(--rm_sky-h) * 1.3); z-index:2; }
-.rm_approach-sky svg{ height:100%; width:auto; }
-.rm_approach-tree{ position:absolute; bottom:var(--rm_band-h); left:72%; height:16vh; z-index:3; }
-.rm_approach-tree svg{ height:100%; width:auto; }
-
+.rm_panel--matters .rm_panel__inner{top:18%;text-align:left;}
+.rm_matters-title{font-weight:600;font-size:var(--rm_fs-h1);color:var(--rm_coral);line-height:1.042;letter-spacing:0;}
+.rm_matters-sub{font-weight:500;font-size:var(--rm_fs-body);color:var(--rm_sub-ink);line-height:1.305;letter-spacing:0;margin-top:2.78vh;}
+/* 4 — This newsletter is:+ three columns,each on a billboard (111/127/151) Vertical footprint matches the design (1080-based):heading top ≈14.8vh,column text ≈28vh,billboard 42.2vh tall with its base on the band. */
+.rm_panel--is .rm_panel__inner{inset:0;height:100%;display:flex;flex-direction:column;padding:14.8vh 6vw var(--rm_band-h);}
+.rm_is-head{font-weight:600;font-size:var(--rm_fs-h2);color:var(--rm_coral);line-height:1.12;letter-spacing:0;margin-bottom:2vw;}
+.rm_is-cols{flex:1;display:flex;gap:6vw;align-items:stretch;min-height:0;}
+.rm_is-col{flex:1 1 0;display:flex;flex-direction:column;align-items:flex-start;}
+/* per-column description widths (from design),left-aligned */
+.rm_is-col .rm_txt{font-size:var(--rm_fs-li);font-weight:500;color:var(--rm_sub-ink);line-height:1.333;letter-spacing:0;margin-bottom:3.704vh;}
+.rm_is-cols .rm_is-col:nth-child(1) .rm_txt{max-width:19.375vw;}
+.rm_is-cols .rm_is-col:nth-child(2) .rm_txt{max-width:20.99vw;}
+.rm_is-cols .rm_is-col:nth-child(3) .rm_txt{max-width:18.229vw;}
+/* billboard left-aligns with its description (left edges match the design),width 318/1920 = 16.56vw;margin-top:auto keeps its base on the band */
+.rm_is-col .rm_board{margin-top:auto;align-self:flex-start;}
+.rm_is-col .rm_board svg{width:16.56vw;height:auto;display:block;}
+/* 5 — approach:dark foreground skyline + tree leading to the building (131/100/117) */
+.rm_panel--approach{overflow:hidden;}
+.rm_approach-sky{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--rm_band-h) - 2px);height:calc(var(--rm_sky-h) * 1.3);z-index:2;}
+.rm_approach-sky svg{height:100%;width:auto;}
+.rm_approach-tree{position:absolute;bottom:var(--rm_band-h);left:72%;height:16vh;z-index:3;}
+.rm_approach-tree svg{height:100%;width:auto;}
 /* 6 — coral building finale (119/120) */
-.rm_panel--finale{ background:var(--rm_coral); }
-.rm_finale__tree{ position:absolute; bottom:var(--rm_band-h); left:1.5vw; height:96vh; width:auto; z-index:2; }
-.rm_finale__window{ position:absolute; left:52%; bottom:calc(var(--rm_band-h) + 15vh);
-  width:15vw; height:auto; z-index:2; }
-
-/* ============================================================
-   STACKED LAYOUT — mobile + reduced motion (vertical scroll)
-   ============================================================ */
-@media (max-width:1024px), (prefers-reduced-motion:reduce){
-  .rm_hscroll{ height:auto; overflow:visible; }
-  .rm_htrack{ flex-direction:column; width:100%; height:auto; transform:none !important; }
-  .rm_panel{ flex:0 0 auto; width:100%; height:auto; min-height:auto; overflow:hidden; }
-  .rm_track-band, .rm_track-skyline, .rm_track-trees{ display:none; }
-
-  .rm_panel:not(.rm_panel--finale)::after{ content:""; position:absolute; left:0; bottom:0;
-    width:100%; height:var(--rm_band-h); background:var(--rm_ink); z-index:1; opacity: 0; }
-  .rm_panel__inner{ position:relative; left:auto; top:auto !important; inset:auto;
-    height:auto; display:block; padding:80px 20px; }
-
-  .rm_panel--help .rm_panel__inner{ display:flex; gap:20px; padding-top: 0;}
-  .rm_help-left{ max-width:100%; }
-  .rm_help-card{ flex:0 0 auto; width:100%; max-width:50%; padding: 25px;
-    border-radius: 20px;}
-  .rm_panel--matters .rm_panel__inner {    
-    text-align: left;
-    padding-top: 0;
+.rm_panel--finale{background:var(--rm_coral);}
+.rm_finale__tree{position:absolute;bottom:var(--rm_band-h);left:1.5vw;height:96vh;width:auto;z-index:2;}
+.rm_finale__window{position:absolute;left:52%;bottom:calc(var(--rm_band-h) + 15vh);width:15vw;height:auto;z-index:2;}
+/* ============================================================ STACKED LAYOUT — mobile + reduced motion (vertical scroll) ============================================================ */
+@media (max-width:1024px),(prefers-reduced-motion:reduce){.rm_hscroll{height:auto;overflow:visible;}
+.rm_htrack{flex-direction:column;width:100%;height:auto;transform:none !important;}
+.rm_panel{flex:0 0 auto;width:100%;height:auto;min-height:auto;overflow:hidden;}
+.rm_track-band,.rm_track-skyline,.rm_track-trees{display:none;}
+.rm_panel:not(.rm_panel--finale)::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:var(--rm_band-h);background:var(--rm_ink);z-index:1;opacity:0;}
+.rm_panel__inner{position:relative;left:auto;top:auto !important;inset:auto;height:auto;display:block;padding:80px 20px;}
+.rm_panel--help .rm_panel__inner{display:flex;gap:20px;padding-top:0;}
+.rm_help-left{max-width:100%;}
+.rm_help-card{flex:0 0 auto;width:100%;max-width:50%;padding:25px;border-radius:20px;}
+.rm_panel--matters .rm_panel__inner{text-align:left;padding-top:0;}
+.rm_panel--is .rm_panel__inner{display:block;padding:0px 20px 80px 20px;}
+/* .rm_is-cols{flex-direction:column;gap:40px;max-width:560px;}
+*/
+ .rm_is-col .rm_board{margin-top:18px;align-self:flex-start;}
+.rm_is-col .rm_board svg{height:auto;width:100%;max-width:240px;}
+.rm_panel--approach{display:none;}
+.rm_approach-sky{height:auto;width:130%;}
+.rm_approach-tree{height:auto;width:34vw;max-width:200px;left:8vw;}
+.rm_panel--finale{min-height:88svh;}
+.rm_finale__tree{height:auto;width:40vw;max-width:240px;}
+.rm_finale__window{left:auto;right:10vw;width:30vw;max-width:200px;}
+.rm_panel--is:after{opacity:1 !important;visibility:visible;}
 }
-  .rm_panel--is .rm_panel__inner{ display:block; padding: 0px 20px 80px 20px;}
-  /* .rm_is-cols{ flex-direction:column; gap:40px; max-width:560px; } */
-  .rm_is-col .rm_board{ margin-top:18px; align-self:flex-start; }
-  .rm_is-col .rm_board svg{ height:auto; width:100%; max-width:240px; }
-
-  .rm_panel--approach{display: none; }
-  .rm_approach-sky{ height:auto; width:130%; }
-  .rm_approach-tree{ height:auto; width:34vw; max-width:200px; left:8vw; }
-  .rm_panel--finale{ min-height:88svh; }
-  .rm_finale__tree{ height:auto; width:40vw; max-width:240px; }
-  .rm_finale__window{ left:auto; right:10vw; width:30vw; max-width:200px; }
-  .rm_panel--is:after {
-    opacity: 1 !important;
-    visibility: visible;
-  }
+@media (prefers-reduced-motion:reduce){.rm_rv{opacity:1 !important;transform:none !important;}
 }
-
-@media (prefers-reduced-motion:reduce){ .rm_rv{ opacity:1 !important; transform:none !important; } }
-
-/* ============================================================
-   MOBILE / TABLET (≤1024px) — the rm_ type tokens are vw off the
-   1920 frame, so on small screens an h1 (5vw) is ~19px and body
-   (1.667vw) is ~6px. Override the tokens with fixed sizes. The
-   window-reveal text (.rm_el--heading/--sub) stays vw on purpose —
-   it scales with the camera-zoom — so it is NOT touched here. Placed
-   last to win by source order. Desktop (≥1025px) untouched.
-   ============================================================ */
-@media (max-width:1024px){
-  .rm_root{
-    --rm_fs-h1:           2rem;   /* was 5vw      */
-    --rm_fs-h2:           2rem;  /* was 2.6vw    */
-    --rm_fs-statement:    1.5rem;    /* was 2.604vw  */
-    --rm_fs-audience:     1.375rem;  /* was 2.083vw  */
-    --rm_fs-statement-sm: 1rem; /* was 1.25vw   */
-    --rm_fs-card-title:   1.25rem;   /* was 1.667vw  */
-    --rm_fs-board:        1rem;      /* was 1.25vw   */
-    --rm_fs-body:         1rem;      /* was 1.667vw  */
-    --rm_fs-li:           1rem;      /* was 1.25vw   */
-    --rm_fs-small:        0.8125rem; /* was 0.73vw   */
-  }
-  /* beat the leftover small-phone rule that pinned this to 2.5vw (~9px) */
-  .rm_intro__heading{ font-size:2.25rem; }
-
-  /* ---- DOOR REVEAL DISABLED ≤1024 (see screen4.js): show the window interior
-     (.rm_content) as a normal, readable stacked block instead of the camera-zoom
-     reveal. rm_render(0) runs on load and leaves inline transform/scale +
-     --rm_el-op:0 on these nodes, so these overrides need !important to win. ---- */
-  .rm_track.rm_panel{ height:auto; }
-  .rm_track.rm_panel .rm_stage{ position:static; height:auto; background:var(--rm_cream); }
-  .rm_env, .rm_door, .rm_interior{ display:none !important; }
-  .rm_content{
-    position:static; left:auto; top:auto; width:100%; height:auto;
-    transform:none !important; clip-path:none !important;
-    background:var(--rm_cream); padding:80px 20px;
-  }
-  #rm_who-page{
-    margin-top: 0;
-  }
-  .rm_who-stage__intro {
-    padding: 80px 20px;
-  }
-  .rm_container{
-    padding: 0 ;
-  }
- 
-  .rm_sheet{
-    position:static; left:auto; top:auto; width:100%; height:auto;
-    transform:none !important;
-    display:flex; flex-direction:column; align-items:center; text-align:center; gap:1.5rem;
-  }
-  .rm_el{ position:static; left:auto !important; top:auto !important;
-          width:auto; opacity:1 !important; }
-  .rm_el--heading{ font-size:2rem; line-height:1.1; }
-  .rm_el--sub{ font-size:1.125rem; line-height:1.3; }
-  .rm_el--inbox{ width:100%; max-width:520px; height:auto; }
-  .rm_who-stage__layer {
-    min-height: auto;
-    padding-top: 0;
+/* ============================================================ MOBILE / TABLET (≤1024px) — the rm_ type tokens are vw off the 1920 frame,so on small screens an h1 (5vw) is ~19px and body (1.667vw) is ~6px. Override the tokens with fixed sizes. The window-reveal text (.rm_el--heading/--sub) stays vw on purpose — it scales with the camera-zoom — so it is NOT touched here. Placed last to win by source order. Desktop (≥1025px) untouched. ============================================================ */
+@media (max-width:1024px){.rm_root{--rm_fs-h1:2rem;/* was 5vw */
+ --rm_fs-h2:1.5rem;/* was 2.6vw */
+ --rm_fs-statement:1.5rem;/* was 2.604vw */
+ --rm_fs-audience:1.375rem;/* was 2.083vw */
+ --rm_fs-statement-sm:1rem;/* was 1.25vw */
+ --rm_fs-card-title:1.25rem;/* was 1.667vw */
+ --rm_fs-board:1rem;/* was 1.25vw */
+ --rm_fs-body:1rem;/* was 1.667vw */
+ --rm_fs-li:1rem;/* was 1.25vw */
+ --rm_fs-small:0.8125rem;/* was 0.73vw */
 }
-.rm_who-stage__cta {
-  padding: 80px 20px;
+/* beat the leftover small-phone rule that pinned this to 2.5vw (~9px) */
+ .rm_intro__heading{font-size:2.25rem;}
+/* ---- DOOR REVEAL DISABLED ≤1024 (see screen4.js):show the window interior (.rm_content) as a normal,readable stacked block instead of the camera-zoom reveal. rm_render(0) runs on load and leaves inline transform/scale + --rm_el-op:0 on these nodes,so these overrides need !important to win. ---- */
+ .rm_track.rm_panel{height:auto;}
+.rm_track.rm_panel .rm_stage{position:static;height:auto;background:var(--rm_cream);}
+.rm_env,.rm_door,.rm_interior{display:none !important;}
+.rm_content{position:static;left:auto;top:auto;width:100%;height:auto;transform:none !important;clip-path:none !important;background:var(--rm_cream);padding:80px 20px;}
+#rm_who-page{margin-top:0;}
+.rm_who-stage__intro{padding:80px 20px;}
+.rm_container{padding:0;}
+.rm_sheet{position:static;left:auto;top:auto;width:100%;height:auto;transform:none !important;display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.5rem;}
+.rm_el{position:static;left:auto !important;top:auto !important;width:auto;opacity:1 !important;}
+.rm_el--heading{font-size:2rem;line-height:1.1;}
+.rm_el--sub{font-size:1.125rem;line-height:1.3;}
+.rm_el--inbox{width:100%;max-width:520px;height:auto;}
+.rm_who-stage__layer{min-height:auto;padding-top:0;}
+.rm_who-stage__cta{padding:80px 20px;}
+.rm_who-stage__cta{padding-top:80px;}
+.rm_cta__heading{margin-bottom:50px;}
+.rm_billboard{height:53vw;}
+.rm_cta__left{padding-top:0vh;padding-bottom:80px;}
+.rm_signup{background:var(--rm_card-bg);border-radius:20px;padding:25px;max-width:100%;display:grid;gap:0.833vw;box-shadow:0 30px 70px -30px rgba(19,19,19,0.45);}
 }
-.rm_who-stage__cta {
-  padding-top: 80px;
-}
-.rm_cta__heading {
-  margin-bottom: 50px;
-}
-.rm_billboard {
-
-  height: 53vw;
-}
-.rm_cta__left {  
-  padding-top: 0vh;
-  padding-bottom: 80px;
-}
-.rm_signup {
-  background: var(--rm_card-bg);
-  border-radius: 20px;
-  padding: 25px;
-  max-width: 100%;
-  display: grid;
-  gap: 0.833vw;
-  box-shadow: 0 30px 70px -30px rgba(19, 19, 19, 0.45);
-}
-}
-
 /* ---- ≤991px · tablet ---- */
-@media (max-width:991px){
-  .rm_intro__heading{ font-size:2rem; }
-  .rm_cta__left { 
-    padding-bottom: 0px;
-  }
-  .rm_billboard {
-    height: 400px;
+@media (max-width:991px){.rm_intro__heading{font-size:2rem;}
+.rm_cta__left{padding-bottom:0px;}
+.rm_billboard{height:400px;}
 }
-}
-
 /* ---- ≤767px · large phone / small tablet ---- */
-@media (max-width:767px){
-  
-  .rm_is-cols {
-    gap: 40px;
-    flex-direction: column;
-    max-width: 100%;
-}
-  .rm_panel--help .rm_panel__inner {   
-    flex-direction: column;
-}
-.rm_who-stage__cta {
-  padding-top: 0;
-}
-.rm_is-cols .rm_is-col:nth-child(1) .rm_txt,
-.rm_is-cols .rm_is-col:nth-child(2) .rm_txt,
-.rm_is-cols .rm_is-col:nth-child(3) .rm_txt {
-  max-width: max-content;
-}
-.rm_help-card .rm_row {
-  flex-direction: column;
-}
-.rm_signup,
-.rm_signup__row {
-  gap: 15px;
-}
+@media (max-width:767px){.rm_is-cols{gap:40px;flex-direction:column;max-width:100%;}
+.rm_panel--help .rm_panel__inner{flex-direction:column;}
+.rm_who-stage__cta{padding-top:0;}
+.rm_is-cols .rm_is-col:nth-child(1) .rm_txt,.rm_is-cols .rm_is-col:nth-child(2) .rm_txt,.rm_is-cols .rm_is-col:nth-child(3) .rm_txt{max-width:max-content;}
+.rm_help-card .rm_row{flex-direction:column;}
+.rm_signup,.rm_signup__row{gap:15px;}
+.rm_billboard{height:70vw;}
+.rm_panel .rm_rv{position:relative;}
+.rm_panel.rm_panel--is .rm_rv:not(.rm_is-head)::after{content:"";position:absolute;left:-20px;bottom:0;width:calc(100% + 40px);height:50px;background-color:var(--rm_ink);z-index:1;}
 
-.rm_billboard {
-  height: 70vw;
-}
-.rm_panel .rm_rv{
-  position: relative;
-}
-.rm_panel.rm_panel--is .rm_rv:not(.rm_is-head)::after {
-  content: "";
+.rm_panel.rm_panel--is .rm_rv:not(.rm_is-head)::before {
+  content: '';
   position: absolute;
-  left: -20px;
   bottom: 0;
-  width: calc(100% + 40px);
-  height: 50px;
-  background: var(--rm_ink);
-  z-index: 1;
-  
+  left: -20px;
+  width: 120%;
+  height: 304px;
+  background-image: url("data:image/svg+xml,%3Csvg%20width%3D%225271%22%20height%3D%22304%22%20viewBox%3D%220%200%205271%20304%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M883.574%20302.632H796.283V46.9258L817.459%2046.7358L817.604%2032.2299L853.772%2032.0999L854.042%2047.0508L870.178%2046.7358L870.678%2069.0072L883.574%2068.9472V302.632Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1317.75%20302.634H1269.73V125.063H1289.39L1289.45%20130.779H1299.17L1299.31%20140.024L1307.63%20141.259L1308.03%20234.77L1317.75%20234.69V276.708V302.634Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1131.23%20302.63H1082.08V83.1809L1097.16%2083.0909L1098.82%200.51566H1114.82L1117.74%2082.9259H1131.23V302.63Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M654.384%20302.632H596.105V113.585L613.991%20113.505L616.681%2042.3701H636.262L638.392%20113.365H654.384V302.632Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M917.711%20302.63H883.574V197.648L894.049%20197.603L893.909%20158.101H908.15L908.345%20197.523H917.711V302.63Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M712.662%20302.634H654.384V110.902H683.526L684.536%20170.671L697.416%20170.541L697.516%20177.721L706.152%20177.651L706.172%20187.197L712.662%20187.077V302.634Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1031.27%20302.633H950.762V175.84L961.268%20175.985L961.323%20134.467L975.534%20134.337L975.974%20109.316H987.31L987.64%2087.7091H1031.27V302.633Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1186.1%20302.635H1269.73V210.484L1258.48%20210.589L1258.51%20180.107L1243.73%20180.322L1243.47%20161.921L1231.55%20162.141L1231.6%20146.44H1186.1V302.635Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M796.283%20302.629H712.663V263.671L714.628%20263.681V258.971L716.448%20258.961L716.278%20248.36H718.723L718.043%20237.44L720.618%20237.39L720.573%20227.529L723.268%20227.474L723.303%20218.003L784.862%20217.413L784.987%20226.164L788.872%20226.064L789.287%20236.235L792.408%20236.115L792.873%20248.64L796.283%20248.585V302.629Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1082.08%20200.705H1059.23V302.632H1082.08V200.705Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1186.1%20301.879L1131.23%20302.634V212.853L1144.31%20212.713L1145.26%20184.966L1159.15%20149.104L1170.86%20184.966L1172%20213.433H1186.1V301.879Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M596.105%20302.628H484.463V238.044H555.187V243.144L575.724%20243.344V246.589L596.105%20246.439V302.628Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1031.27%20302.635H1059.23V230.906L1051.21%20231.006L1051.33%20208.879L1045.25%20208.909V194.658L1041.69%20194.668L1041.23%20170.262H1031.27V302.635Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M950.763%20228.441H917.711V302.631H950.763V228.441Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M484.463%20302.626H441.035V173.713H447.386L447.596%20149.327H477.852L477.782%20174.413L484.463%20174.498V302.626Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M362.01%20302.632H301.996V95.4038L313.292%2095.2638V46.3707L318.937%2042.1555L319.647%200.00781304H353.535V46.3707L362.01%2046.5108V302.632Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M441.035%20302.63H362.01L362.01%20142.94L369.441%20142.915L369.426%20111.393L377.776%20111.253L377.226%2086.9914L388.157%2072.3005L394.492%2025.6775H405.528L412.323%2071.6605L423.929%2086.0314L424.649%20110.538L433.005%20110.318L433.755%20145.275L441.035%20145.24V302.63Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M301.996%20302.63H262.793V154.735H268.519L268.494%20126.759H295.921L295.966%20155.536L301.996%20155.481V302.63Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M262.793%20302.633H233.041V199.732L242.172%20199.687L243.927%20160.964H253.543L254.628%20199.612H262.793V302.633Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M233.042%20302.633H161.222V73.1785L181.838%2073.1335L182.058%2060.0627H216.801L217.106%2073.5536L233.042%2073.1785V302.633Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M161.222%20302.631H93.4232L93.2032%20164.903L100.524%20164.768L97.1334%20142.236L108.274%20139.866L109.119%20122.52L118.605%20122.37L118.565%2078.4971L132.166%2078.2671L134.586%20122.325L144.656%20121.98L146.692%20139.866L157.382%20142.076L153.907%20165.233L161.222%20165.063V302.631Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M93.6673%20219.429H50.0982V302.629H93.6673V219.429Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M50.0982%20302.631H0V188.073H7.32046L7.52548%20166.402H42.1527L42.3877%20188.693L50.0982%20188.768V302.631Z%22%20fill%3D%22%23131313%22%2F%3E%3C%2Fg%3E%3Cg%20opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M3519.07%20302.624H3431.78V46.918L3452.96%2046.728L3453.1%2032.2221L3489.27%2032.092L3489.54%2047.043L3505.68%2046.728L3506.18%2068.9994L3519.07%2068.9394V302.624Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3953.25%20302.627H3905.23V125.055H3924.89L3924.95%20130.771H3934.67L3934.81%20140.016L3943.13%20141.251L3943.53%20234.762L3953.25%20234.682V276.7V302.627Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3766.73%20302.622H3717.58V83.1731L3732.66%2083.0831L3734.32%200.507847H3750.32L3753.24%2082.9181H3766.73V302.622Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3289.88%20302.624H3231.61V113.577L3249.49%20113.497L3252.18%2042.3623H3271.76L3273.89%20113.357H3289.88V302.624Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3553.21%20302.622H3519.07V197.64L3529.55%20197.595L3529.41%20158.093H3543.65L3543.84%20197.515H3553.21V302.622Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3348.16%20302.626H3289.88V110.894H3319.03L3320.04%20170.663L3332.92%20170.533L3333.02%20177.714L3341.65%20177.644L3341.67%20187.189L3348.16%20187.069V302.626Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3666.77%20302.625H3586.26V175.832L3596.77%20175.977L3596.82%20134.459L3611.03%20134.329L3611.47%20109.308H3622.81L3623.14%2087.7013H3666.77V302.625Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3821.6%20302.627H3905.23V210.476L3893.98%20210.581L3894.01%20180.099L3879.23%20180.314L3878.97%20161.913L3867.05%20162.133L3867.1%20146.432H3821.6V302.627Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3431.78%20302.621H3348.16V263.663L3350.13%20263.673V258.963L3351.95%20258.953L3351.78%20248.352H3354.22L3353.54%20237.432L3356.12%20237.382L3356.07%20227.521L3358.77%20227.466L3358.8%20217.996L3420.36%20217.406L3420.49%20226.156L3424.37%20226.056L3424.79%20236.227L3427.91%20236.107L3428.37%20248.632L3431.78%20248.578V302.621Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3717.58%20200.697H3694.73V302.624H3717.58V200.697Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3821.6%20301.871L3766.73%20302.626V212.845L3779.81%20212.705L3780.76%20184.958L3794.65%20149.096L3806.36%20184.958L3807.5%20213.425H3821.6V301.871Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3231.6%20302.62H3119.96V238.036H3190.69V243.136L3211.22%20243.336V246.581L3231.6%20246.431V302.62Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3666.77%20302.627H3694.73V230.898L3686.71%20230.998L3686.83%20208.871L3680.75%20208.901V194.65L3677.19%20194.66L3676.73%20170.254H3666.77V302.627Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3586.26%20228.434H3553.21V302.623H3586.26V228.434Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3119.96%20302.619H3076.54V173.705H3082.89L3083.1%20149.319H3113.35L3113.28%20174.405L3119.96%20174.49V302.619Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2997.51%20302.624H2937.5V95.396L2948.79%2095.256V46.3629L2954.44%2042.1477L2955.15%200H2989.03V46.3629L2997.51%2046.5029V302.624Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M3076.54%20302.622H2997.51L2997.51%20142.932L3004.94%20142.907L3004.93%20111.385L3013.28%20111.245L3012.73%2086.9836L3023.66%2072.2927L3029.99%2025.6697H3041.03L3047.82%2071.6526L3059.43%2086.0235L3060.15%20110.53L3068.51%20110.31L3069.26%20145.267L3076.54%20145.232V302.622Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2937.5%20302.622H2898.29V154.728H2904.02L2903.99%20126.751H2931.42L2931.47%20155.528L2937.5%20155.473V302.622Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2898.29%20302.625H2868.54V199.724L2877.67%20199.679L2879.43%20160.956H2889.04L2890.13%20199.604H2898.29V302.625Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2868.54%20302.625H2796.72V73.1707L2817.34%2073.1257L2817.56%2060.0549H2852.3L2852.61%2073.5458L2868.54%2073.1707V302.625Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2796.72%20302.623H2728.92L2728.7%20164.895L2736.02%20164.76L2732.63%20142.228L2743.77%20139.858L2744.62%20122.512L2754.1%20122.362L2754.06%2078.4893L2767.67%2078.2593L2770.09%20122.317L2780.16%20121.972L2782.19%20139.858L2792.88%20142.068L2789.41%20165.225L2796.72%20165.055V302.623Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2729.17%20219.421H2685.6V302.622H2729.17V219.421Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2685.6%20302.623H2635.5V188.066H2642.82L2643.03%20166.394H2677.65L2677.89%20188.686L2685.6%20188.761V302.623Z%22%20fill%3D%22%23131313%22%2F%3E%3C%2Fg%3E%3Cg%20opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M2201.32%20303.14H2114.03V47.4336L2135.21%2047.2436L2135.35%2032.7377L2171.52%2032.6077L2171.79%2047.5587L2187.93%2047.2436L2188.43%2069.515L2201.32%2069.455V303.14Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2635.5%20303.142H2587.48V125.571H2607.14L2607.2%20131.286H2616.92L2617.06%20140.532L2625.39%20141.767L2625.78%20235.278L2635.5%20235.198V277.216V303.142Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2448.98%20303.138H2399.83V83.6887L2414.91%2083.5987L2416.57%201.02351H2432.57L2435.49%2083.4337H2448.98V303.138Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1972.13%20303.139H1913.86V114.092L1931.74%20114.012L1934.43%2042.8779H1954.01L1956.14%20113.872H1972.13V303.139Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2235.46%20303.138H2201.32V198.156L2211.8%20198.111L2211.66%20158.609H2225.9L2226.1%20198.031H2235.46V303.138Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2030.41%20303.142H1972.13V111.41H2001.28L2002.29%20171.179L2015.17%20171.049L2015.27%20178.229L2023.9%20178.159L2023.92%20187.705L2030.41%20187.585V303.142Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2349.02%20303.141H2268.51V176.348L2279.02%20176.493L2279.07%20134.975L2293.28%20134.845L2293.72%20109.823H2305.06L2305.39%2088.217H2349.02V303.141Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2503.85%20303.142H2587.48V210.992L2576.23%20211.097L2576.26%20180.615L2561.48%20180.83L2561.22%20162.429L2549.31%20162.649L2549.35%20146.948H2503.85V303.142Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2114.03%20303.137H2030.41V264.179L2032.38%20264.189V259.479L2034.2%20259.469L2034.03%20248.868H2036.47L2035.79%20237.947L2038.37%20237.897L2038.32%20228.037L2041.02%20227.982L2041.05%20218.511L2102.61%20217.921L2102.74%20226.672L2106.62%20226.572L2107.04%20236.742L2110.16%20236.622L2110.62%20249.148L2114.03%20249.093V303.137Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2399.83%20201.213H2376.98V303.139H2399.83V201.213Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2503.85%20302.386L2448.98%20303.142V213.361L2462.06%20213.221L2463.01%20185.474L2476.9%20149.612L2488.61%20185.474L2489.75%20213.941H2503.85V302.386Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1913.86%20303.136H1802.21V238.552H1872.94V243.652L1893.47%20243.852V247.097L1913.86%20246.947V303.136Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2349.02%20303.143H2376.99V231.413L2368.96%20231.513L2369.08%20209.387L2363%20209.417V195.166L2359.44%20195.176L2358.98%20170.77H2349.02V303.143Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M2268.51%20228.949H2235.46V303.139H2268.51V228.949Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1802.21%20303.134H1758.79V174.221H1765.14L1765.35%20149.834H1795.6L1795.53%20174.921L1802.21%20175.006V303.134Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1679.76%20303.14H1619.75V95.9117L1631.04%2095.7717V46.8786L1636.69%2042.6633L1637.4%200.51566H1671.29V46.8786L1679.76%2047.0186V303.14Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1758.79%20303.138H1679.76L1679.76%20143.448L1687.19%20143.423L1687.18%20111.901L1695.53%20111.761L1694.98%2087.4993L1705.91%2072.8083L1712.24%2026.1854H1723.28L1730.07%2072.1683L1741.68%2086.5392L1742.4%20111.046L1750.76%20110.826L1751.51%20145.783L1758.79%20145.748V303.138Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1619.75%20303.138H1580.54V155.243H1586.27L1586.24%20127.267H1613.67L1613.72%20156.043L1619.75%20155.988V303.138Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1580.54%20303.141H1550.79V200.239L1559.92%20200.194L1561.68%20161.472H1571.29L1572.38%20200.119H1580.54V303.141Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1550.79%20303.141H1478.97V73.6864L1499.59%2073.6414L1499.81%2060.5706H1534.55L1534.86%2074.0614L1550.79%2073.6864V303.141Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1478.97%20303.139H1411.17L1410.95%20165.41L1418.27%20165.275L1414.88%20142.744L1426.02%20140.374L1426.87%20123.028L1436.36%20122.878L1436.32%2079.0049L1449.92%2078.7749L1452.34%20122.833L1462.41%20122.488L1464.44%20140.374L1475.13%20142.584L1471.66%20165.74L1478.97%20165.57V303.139Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1411.42%20219.937H1367.85V303.137H1411.42V219.937Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M1367.85%20303.139H1317.75V188.581H1325.07L1325.28%20166.91H1359.9L1360.14%20189.201L1367.85%20189.276V303.139Z%22%20fill%3D%22%23131313%22%2F%3E%3C%2Fg%3E%3Cg%20opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M4836.82%20303.132H4749.53V47.4258L4770.71%2047.2358L4770.85%2032.7299L4807.02%2032.5999L4807.29%2047.5508L4823.43%2047.2358L4823.93%2069.5072L4836.82%2069.4472V303.132Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M5271%20303.135H5222.98V125.563H5242.64L5242.7%20131.279H5252.42L5252.56%20140.524L5260.88%20141.759L5261.28%20235.27L5271%20235.19V277.208V303.135Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M5084.48%20303.13H5035.33V83.6809L5050.41%2083.5909L5052.07%201.01569H5068.07L5070.99%2083.4259H5084.48V303.13Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4607.63%20303.132H4549.36V114.085L4567.24%20114.005L4569.93%2042.8701H4589.51L4591.64%20113.865H4607.63V303.132Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4870.96%20303.13H4836.82V198.148L4847.3%20198.103L4847.16%20158.601H4861.4L4861.6%20198.023H4870.96V303.13Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4665.91%20303.134H4607.63V111.402H4636.78L4637.79%20171.171L4650.67%20171.041L4650.77%20178.221L4659.4%20178.151L4659.42%20187.697L4665.91%20187.577V303.134Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4984.52%20303.133H4904.01V176.34L4914.52%20176.485L4914.57%20134.967L4928.78%20134.837L4929.22%20109.816H4940.56L4940.89%2088.2092H4984.52V303.133Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M5139.35%20303.135H5222.98V210.984L5211.73%20211.089L5211.76%20180.607L5196.98%20180.822L5196.72%20162.421L5184.81%20162.641L5184.85%20146.94H5139.35V303.135Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4749.53%20303.129H4665.91V264.171L4667.88%20264.181V259.471L4669.7%20259.461L4669.53%20248.86H4671.97L4671.29%20237.94L4673.87%20237.89L4673.82%20228.029L4676.52%20227.974L4676.55%20218.503L4738.11%20217.913L4738.24%20226.664L4742.12%20226.564L4742.54%20236.735L4745.66%20236.615L4746.12%20249.14L4749.53%20249.085V303.129Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M5035.33%20201.205H5012.48V303.132H5035.33V201.205Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M5139.35%20302.379L5084.48%20303.134V213.353L5097.56%20213.213L5098.51%20185.466L5112.4%20149.604L5124.11%20185.466L5125.25%20213.933H5139.35V302.379Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4549.36%20303.128H4437.71V238.544H4508.44V243.644L4528.97%20243.844V247.089L4549.36%20246.939V303.128Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4984.52%20303.135H5012.49V231.406L5004.46%20231.506L5004.58%20209.379L4998.5%20209.409V195.158L4994.94%20195.168L4994.48%20170.762H4984.52V303.135Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4904.01%20228.941H4870.96V303.131H4904.01V228.941Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4437.71%20303.126H4394.29V174.213H4400.64L4400.85%20149.827H4431.1L4431.03%20174.913L4437.71%20174.998V303.126Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4315.26%20303.132H4255.25V95.9039L4266.54%2095.7639V46.8708L4272.19%2042.6555L4272.9%200.507847H4306.79V46.8708L4315.26%2047.0108V303.132Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4394.29%20303.13H4315.26L4315.26%20143.44L4322.69%20143.415L4322.68%20111.893L4331.03%20111.753L4330.48%2087.4915L4341.41%2072.8005L4347.74%2026.1776H4358.78L4365.57%2072.1605L4377.18%2086.5314L4377.9%20111.038L4386.26%20110.818L4387.01%20145.775L4394.29%20145.74V303.13Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4255.25%20303.13H4216.04V155.235H4221.77L4221.74%20127.259H4249.17L4249.22%20156.036L4255.25%20155.981V303.13Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4216.04%20303.133H4186.29V200.232L4195.42%20200.187L4197.18%20161.464H4206.79L4207.88%20200.112H4216.04V303.133Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4186.29%20303.133H4114.47V73.6786L4135.09%2073.6336L4135.31%2060.5627H4170.05L4170.36%2074.0536L4186.29%2073.6786V303.133Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4114.47%20303.131H4046.67L4046.45%20165.403L4053.77%20165.268L4050.38%20142.736L4061.52%20140.366L4062.37%20123.02L4071.85%20122.87L4071.81%2078.9971L4085.42%2078.7671L4087.84%20122.825L4097.91%20122.48L4099.94%20140.366L4110.63%20142.576L4107.16%20165.733L4114.47%20165.563V303.131Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4046.92%20219.929H4003.35V303.129H4046.92V219.929Z%22%20fill%3D%22%23131313%22%2F%3E%3Cpath%20d%3D%22M4003.35%20303.131H3953.25V188.573H3960.57L3960.78%20166.902H3995.4L3995.64%20189.193L4003.35%20189.268V303.131Z%22%20fill%3D%22%23131313%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-repeat: repeat-x;
+  background-position: bottom left;
+  background-size: auto 100%;
+  pointer-events: none;
+  z-index: -1;
 }
-.rm_panel:not(.rm_panel--finale)::after { 
-  opacity: 0 !important;
+.rm_panel.rm_panel--is .rm_rv:not(.rm_is-head):nth-child(1):before{background-position: bottom right;}
+.rm_panel.rm_panel--is .rm_rv:not(.rm_is-head):nth-child(2):before{ background-position: bottom center; }
+.rm_panel:not(.rm_panel--finale)::after{opacity:0 !important;}
+.rm_panel--is .rm_panel__inner{padding:0px 20px 0px 20px;}
+.rm_help-card{max-width:100%;}
+.rm_skyline__img {
+  display: block;
+  width: auto;
+  height: 200px;
+  object-fit: contain;
+  object-position: bottom;
 }
-.rm_panel--is .rm_panel__inner {
-  padding: 0px 20px 0px 20px;
 }
-.rm_help-card{ max-width:100%;}
-
-}
-
 /* ---- ≤576px · phone ---- */
-@media (max-width:576px){
-  .rm_root{
-    --rm_fs-h1:          1.5rem;   /* was 5vw      */
-    --rm_fs-h2:           1.5rem;  /* was 2.6vw    */
-    --rm_fs-statement:    1.25rem;    /* was 2.604vw  */
-    --rm_fs-audience:     1.125rem;  /* was 2.083vw  */
-    --rm_fs-statement-sm: 1rem; /* was 1.25vw   */
-    --rm_fs-card-title:   1rem;   /* was 1.667vw  */
-    --rm_fs-board:        1rem;      /* was 1.25vw   */
-    --rm_fs-body:         1rem;      /* was 1.667vw  */
-    --rm_fs-li:           1rem;      /* was 1.25vw   */ 
-  }
-  .rm_signup,
-  .rm_signup__row {
-    gap: 15px;
+@media (max-width:576px){.rm_root{--rm_fs-h1:1.5rem;/* was 5vw */
+ --rm_fs-h2:1.25rem;/* was 2.6vw */
+ --rm_fs-statement:1.25rem;/* was 2.604vw */
+ --rm_fs-audience:1.125rem;/* was 2.083vw */
+ --rm_fs-statement-sm:1rem;/* was 1.25vw */
+ --rm_fs-card-title:1rem;/* was 1.667vw */
+ --rm_fs-board:1rem;/* was 1.25vw */
+ --rm_fs-body:1rem;/* was 1.667vw */
+ --rm_fs-li:1rem;/* was 1.25vw */
 }
-
+.rm_signup,.rm_signup__row{gap:15px;}
 }
