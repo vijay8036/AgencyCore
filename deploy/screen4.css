@@ -322,8 +322,6 @@ g.pathstroke > path{stroke:#4b4b4b;}
 .rm_help-card{flex:0 0 auto;width:100%;max-width:50%;padding:25px;border-radius:20px;}
 .rm_panel--matters .rm_panel__inner{text-align:left;padding-top:0;}
 .rm_panel--is .rm_panel__inner{display:block;padding:0px 20px 80px 20px;}
-/* .rm_is-cols{flex-direction:column;gap:40px;max-width:560px;}
-*/
  .rm_is-col .rm_board{margin-top:18px;align-self:flex-start;}
 .rm_is-col .rm_board svg{height:auto;width:100%;max-width:240px;}
 .rm_panel--approach{display:none;}
