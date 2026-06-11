@@ -98,6 +98,12 @@ img,svg{display:block;}
 .hero__copy{margin-left:0;}
 .hero__cue{display:none;}
 }
+/* ≤991: the question SVG switches to preserveAspectRatio="meet" (see script.js)
+   so the whole line fits the viewport WIDTH. font-size is in viewBox user units
+   and the fit scale adapts to width, so this bump stays fully visible at any
+   phone width while reading larger than the slice-derived size. */
+@media (max-width:991px){.zoom__q text{font-size:108px;}
+}
 @media (prefers-reduced-motion:reduce){.bounce{animation:none;}
 .zoom__qg{opacity:0;}
 .zoom__q:first-child .zoom__qg{opacity:1;}

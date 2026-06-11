@@ -11,6 +11,19 @@ gsap.registerPlugin(ScrollTrigger);
    ───────────────────────────────────────────────────────────────────────── */
 const IS_DESKTOP = window.matchMedia('(min-width: 1025px)').matches;
 
+/* QUESTION-ZOOM (Screen 2) responsive fit. The .zoom__q SVGs use a 1920×1080
+   viewBox with preserveAspectRatio="…slice" so the text fills the screen on
+   landscape/desktop. On a portrait phone, "slice" scales the canvas by the
+   HEIGHT ratio, blowing the line far wider than the viewport — so the question
+   gets cropped off both edges. ≤991 we switch to "meet" (fit-to-width) so the
+   whole line stays on-screen and readable. (A width change reloads the page —
+   see the resize handler below — so this load-time check stays in sync.) */
+if(!window.matchMedia('(min-width: 992px)').matches){
+  document.querySelectorAll('.zoom__q').forEach(function(svg){
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  });
+}
+
 
 /* hide scroll hint after first move */
 ScrollTrigger.create({ start:'top -5%',
